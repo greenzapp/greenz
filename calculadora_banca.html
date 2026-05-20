@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BancaOS — Gestão de Banca Protocolo Greenz</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --green:  #007D10;
+  --lime:   #E3EF26;
+  --text:   #FFFFFF;
+  --muted:  #8892A4;
+  --card:   #0C342C;
+  --border: #007D10;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: linear-gradient(180deg, #02060E 0%, #021C07 100%);
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  min-height: 100vh;
+  padding: 0 0 60px;
+  overflow-x: hidden;
+}
+
+/* ── HEADER ── */
+header {
+  position: relative;
+  text-align: center;
+  padding: 48px 24px 36px;
+  border-bottom: 1px solid rgba(0,125,16,0.35);
+  overflow: hidden;
+}
+header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 70% 80% at 50% 0%, rgba(0,125,16,0.18) 0%, transparent 70%);
+  pointer-events: none;
+}
+.brand {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(52px, 14vw, 96px);
+  letter-spacing: 0.06em;
+  line-height: 1;
+  background: linear-gradient(135deg, #fff 40%, #8892A4 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.brand span {
+  background: linear-gradient(135deg, var(--lime), #B8C820);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+.subtitle {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 6px;
+}
+
+/* ── CONTAINER ── */
+.container {
+  max-width: 520px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* ── SECTION LABEL ── */
+.section-label {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--lime);
+  margin-top: 32px;
+  margin-bottom: 0;
+  text-align: center;
+  padding-bottom: 8px;
+}
+.section-label::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 1px;
+  background: #007D10;
+  margin: 0 auto 16px;
+}
+
+/* ── CARD ── */
+.card {
+  background: var(--card);
+  border: 1px solid rgba(0,125,16,0.5);
+  border-radius: 12px;
+  padding: 24px;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  transition: border-color 0.25s;
+}
+.card:hover { border-color: var(--green); }
+
+/* ── BANCA INPUT ── */
+.banca-row {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+.banca-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--muted);
+  white-space: nowrap;
+}
+.banca-field {
+  position: relative;
+  flex: 1;
+}
+.banca-field span {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  pointer-events: none;
+}
+.banca-field input[type="number"] {
+  width: 100%;
+  background: #061209;
+  border: 1px solid rgba(0,125,16,0.4);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 14px 12px 32px;
+  outline: none;
+  transition: border-color 0.2s;
+  -moz-appearance: textfield;
+}
+.banca-field input[type="number"]::-webkit-inner-spin-button,
+.banca-field input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+.banca-field input[type="number"]:focus { border-color: var(--lime); }
+
+/* ── SLIDER ── */
+.slider-wrap { position: relative; padding-top: 4px; }
+.slider-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 8px;
+  letter-spacing: 0.05em;
+}
+input[type="range"] {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  outline: none;
+  cursor: pointer;
+  background: rgba(0,125,16,0.25);
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--green);
+  border: 2px solid var(--lime);
+  box-shadow: 0 0 10px rgba(0,125,16,0.6);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+input[type="range"]::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 18px rgba(227,239,38,0.5);
+}
+input[type="range"]::-moz-range-thumb {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  background: var(--green);
+  border: 2px solid var(--lime);
+  box-shadow: 0 0 10px rgba(0,125,16,0.6);
+  cursor: pointer;
+}
+
+/* ── RISK TOGGLE ── */
+.risk-toggle {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 8px;
+}
+.risk-btn {
+  background: #061209;
+  border: 1px solid rgba(0,125,16,0.4);
+  border-radius: 8px;
+  color: var(--muted);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  padding: 14px 6px;
+  cursor: pointer;
+  text-align: center;
+  text-transform: uppercase;
+  transition: all 0.2s;
+  user-select: none;
+}
+.risk-btn:hover { border-color: var(--green); color: var(--text); }
+.risk-btn.active {
+  background: var(--green);
+  border-color: var(--green);
+  color: var(--lime);
+  box-shadow: 0 0 20px rgba(0,125,16,0.4);
+}
+.risk-pct {
+  display: block;
+  font-size: 18px;
+  font-family: 'Bebas Neue', sans-serif;
+  letter-spacing: 0.04em;
+  margin-top: 2px;
+  color: inherit;
+}
+
+/* ── RESULTADO PRINCIPAL ── */
+.result-card {
+  background: linear-gradient(145deg, #0A2A10, #0C342C);
+  border: 1px solid rgba(0,125,16,0.5);
+  border-top: 2px solid var(--green);
+  border-radius: 12px;
+  padding: 32px 24px 28px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.result-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 60% 50% at 50% 0%, rgba(227,239,38,0.06) 0%, transparent 70%);
+  pointer-events: none;
+}
+.result-label {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.28em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.result-prefix {
+  font-size: 20px;
+  font-family: 'Bebas Neue', sans-serif;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+.result-number {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(72px, 20vw, 108px);
+  line-height: 0.9;
+  letter-spacing: 0.02em;
+  background: linear-gradient(135deg, #fff 20%, var(--lime) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: opacity 0.15s ease;
+}
+.result-number.updating { opacity: 0.4; }
+.result-sublabel {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+/* ── BREAKDOWN ── */
+.breakdown-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.breakdown-item {
+  background: #061209;
+  border: 1px solid rgba(0,125,16,0.35);
+  border-radius: 10px;
+  padding: 16px;
+  transition: border-color 0.2s;
+  position: relative;
+}
+.breakdown-item:hover { border-color: var(--green); }
+.info-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  color: #8892A4;
+  font-size: 13px;
+  cursor: default;
+  transition: color 0.2s;
+  line-height: 1;
+}
+.info-icon:hover { color: var(--lime); }
+.info-icon::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  right: -8px;
+  background: #0C342C;
+  border: 1px solid #007D10;
+  color: #fff;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+  line-height: 1.5;
+  border-radius: 8px;
+  padding: 8px 12px;
+  width: 210px;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s;
+  z-index: 20;
+  white-space: normal;
+}
+.info-icon:hover::after { opacity: 1; }
+.breakdown-item.full { grid-column: 1 / -1; }
+.breakdown-key {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.breakdown-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 28px;
+  letter-spacing: 0.03em;
+  color: var(--text);
+  transition: opacity 0.15s ease;
+}
+.breakdown-val.updating { opacity: 0.3; }
+.breakdown-val.accent { color: var(--lime); }
+.breakdown-note {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 2px;
+}
+
+/* ── EDUCACIONAL ── */
+.edu-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 12px;
+}
+.edu-card {
+  background: var(--card);
+  border: 1px solid rgba(0,125,16,0.4);
+  border-radius: 10px;
+  padding: 18px 16px;
+}
+.edu-badge {
+  display: inline-block;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.1em;
+  padding: 3px 10px;
+  border-radius: 4px;
+  margin-bottom: 10px;
+}
+.edu-badge.c1 { background: rgba(0,125,16,0.25); color: var(--lime); }
+.edu-badge.c2 { background: rgba(6,18,9,0.8); color: var(--muted); border: 1px solid rgba(0,125,16,0.35); }
+.edu-text {
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--muted);
+}
+
+.golden-rule {
+  background: rgba(227,239,38,0.05);
+  border: 1px solid rgba(227,239,38,0.2);
+  border-left: 3px solid var(--lime);
+  border-radius: 8px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+}
+.golden-icon { font-size: 18px; flex-shrink: 0; margin-top: 1px; }
+.golden-text {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+  color: var(--text);
+}
+.golden-text strong { color: var(--lime); }
+
+/* ── ALERTA DE EXPOSIÇÃO ── */
+.alert-card {
+  border-radius: 10px;
+  padding: 14px 16px;
+  font-size: 12px;
+  font-weight: 500;
+  line-height: 1.5;
+  margin-top: 10px;
+  display: none;
+}
+.alert-card.danger {
+  display: block;
+  background: rgba(197,3,55,0.12);
+  border: 1px solid rgba(197,3,55,0.4);
+  border-left: 3px solid #C50337;
+  color: #FF6B8A;
+}
+.alert-card.warning {
+  display: block;
+  background: rgba(227,239,38,0.06);
+  border: 1px solid rgba(227,239,38,0.3);
+  border-left: 3px solid var(--lime);
+  color: var(--lime);
+}
+
+/* ── SIMULADOR ── */
+.section-label-new {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #C50337;
+  margin-top: 32px;
+  margin-bottom: 0;
+  text-align: center;
+  padding-bottom: 8px;
+}
+.section-label-new::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 1px;
+  background: #007D10;
+  margin: 0 auto 16px;
+}
+.sim-inputs {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+.sim-input-group label {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 8px;
+}
+.sim-input-group input[type="number"] {
+  width: 100%;
+  background: #061209;
+  border: 1px solid rgba(0,125,16,0.4);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 36px;
+  letter-spacing: 0.05em;
+  padding: 10px 14px;
+  outline: none;
+  text-align: center;
+  transition: border-color 0.2s;
+  -moz-appearance: textfield;
+}
+.sim-input-group input[type="number"]::-webkit-inner-spin-button,
+.sim-input-group input[type="number"]::-webkit-outer-spin-button { -webkit-appearance: none; }
+.sim-input-group input[type="number"]:focus { border-color: var(--lime); }
+.sim-results {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.sim-item {
+  background: #061209;
+  border: 1px solid rgba(0,125,16,0.35);
+  border-radius: 10px;
+  padding: 14px;
+}
+.sim-item.full { grid-column: 1 / -1; }
+.sim-key {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+.sim-val {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px;
+  letter-spacing: 0.03em;
+  color: var(--text);
+  transition: opacity 0.15s ease;
+}
+.sim-val.updating { opacity: 0.3; }
+.sim-val.positive { color: var(--lime); }
+.sim-val.negative { color: #C50337; }
+.sim-taxa {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 8px;
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+/* ── META DE BANCA ── */
+.meta-input-wrap {
+  position: relative;
+  margin-bottom: 16px;
+}
+.meta-input-wrap span {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  pointer-events: none;
+}
+.meta-input-wrap input[type="number"] {
+  width: 100%;
+  background: #061209;
+  border: 1px solid rgba(0,125,16,0.4);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 12px 14px 12px 32px;
+  outline: none;
+  transition: border-color 0.2s;
+  -moz-appearance: textfield;
+}
+.meta-input-wrap input::-webkit-inner-spin-button,
+.meta-input-wrap input::-webkit-outer-spin-button { -webkit-appearance: none; }
+.meta-input-wrap input:focus { border-color: var(--lime); }
+.meta-result {
+  background: #061209;
+  border: 1px solid rgba(0,125,16,0.35);
+  border-radius: 10px;
+  padding: 16px 18px;
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--muted);
+  min-height: 56px;
+}
+.meta-result .hl  { color: var(--lime); font-weight: 600; }
+.meta-result .ok  { color: var(--lime); font-size: 15px; font-weight: 600; }
+.meta-result .bad { color: #C50337; font-weight: 600; }
+
+/* ── FOOTER ── */
+footer {
+  margin-top: 48px;
+  border-top: 1px solid var(--green);
+  padding-top: 24px;
+  text-align: center;
+}
+.footer-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 13px;
+  letter-spacing: 0.22em;
+  color: var(--muted);
+}
+.footer-text span { color: var(--lime); }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">BANCA<span>.OS</span></div>
+  <div class="subtitle">Gestão de Banca — Protocolo Greenz</div>
+</header>
+
+<div class="container">
+
+  <!-- BANCA -->
+  <div class="section-label">Banca Total</div>
+  <div class="card">
+    <div class="banca-row">
+      <span class="banca-label">Valor</span>
+      <div class="banca-field">
+        <span>R$</span>
+        <input type="number" id="bancaInput" min="50" max="10000" step="50" value="1000">
+      </div>
+    </div>
+    <div class="slider-wrap">
+      <input type="range" id="bancaSlider" min="50" max="10000" step="50" value="1000">
+      <div class="slider-labels">
+        <span>R$ 50</span>
+        <span>R$ 10.000</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- RISCO -->
+  <div class="section-label">Nível de Risco</div>
+  <div class="card">
+    <div class="risk-toggle">
+      <button class="risk-btn active" data-risk="conservador" onclick="setRisk(this)">
+        Conservador<span class="risk-pct">2%</span>
+      </button>
+      <button class="risk-btn" data-risk="moderado" onclick="setRisk(this)">
+        Moderado<span class="risk-pct">5%</span>
+      </button>
+      <button class="risk-btn" data-risk="agressivo" onclick="setRisk(this)">
+        Agressivo<span class="risk-pct">10%</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- RESULTADO -->
+  <div class="section-label">Stake por Entrada</div>
+  <div class="result-card">
+    <div class="result-label">Stake Recomendado</div>
+    <div class="result-prefix">R$</div>
+    <div class="result-number" id="stakeMain">20,00</div>
+    <div class="result-sublabel">por entrada confirmada (C1)</div>
+  </div>
+
+  <!-- BREAKDOWN -->
+  <div class="section-label">Breakdown</div>
+  <div class="breakdown-grid">
+    <div class="breakdown-item">
+      <span class="info-icon" data-tip="Entrada confirmada pelo protocolo matemático. Use o valor cheio recomendado.">ⓘ</span>
+      <div class="breakdown-key">Stake C1</div>
+      <div class="breakdown-val" id="stakeC1">R$ 20</div>
+      <div class="breakdown-note">entrada confirmada</div>
+    </div>
+    <div class="breakdown-item">
+      <span class="info-icon" data-tip="Operação tática de risco maior. Stake reduzido automaticamente a 50% do C1.">ⓘ</span>
+      <div class="breakdown-key">Stake C2</div>
+      <div class="breakdown-val accent" id="stakeC2">R$ 10</div>
+      <div class="breakdown-note">operação tática</div>
+    </div>
+    <div class="breakdown-item">
+      <span class="info-icon" data-tip="Número máximo de apostas simultâneas recomendado para seu nível de risco.">ⓘ</span>
+      <div class="breakdown-key">Máx. Entradas</div>
+      <div class="breakdown-val" id="maxEntradas">3</div>
+      <div class="breakdown-note">simultâneas</div>
+    </div>
+    <div class="breakdown-item">
+      <span class="info-icon" data-tip="Valor total máximo em risco no dia. Nunca ultrapasse 20% da banca.">ⓘ</span>
+      <div class="breakdown-key">Exposição Máx.</div>
+      <div class="breakdown-val accent" id="exposicao">R$ 60</div>
+      <div class="breakdown-note">no dia</div>
+    </div>
+  </div>
+  <div id="alertaExposicao" class="alert-card"></div>
+
+  <!-- SIMULADOR DO DIA -->
+  <div class="section-label-new">Simulador do Dia</div>
+  <div class="card">
+    <div class="sim-inputs">
+      <div class="sim-input-group">
+        <label>Greens hoje</label>
+        <input type="number" id="simGreens" min="0" max="20" value="0">
+      </div>
+      <div class="sim-input-group">
+        <label>Reds hoje</label>
+        <input type="number" id="simReds" min="0" max="20" value="0">
+      </div>
+    </div>
+    <div class="sim-results">
+      <div class="sim-item">
+        <div class="sim-key">Lucro Bruto</div>
+        <div class="sim-val" id="simLucro">R$ 0</div>
+      </div>
+      <div class="sim-item">
+        <div class="sim-key">Prejuízo</div>
+        <div class="sim-val" id="simPrejuizo">R$ 0</div>
+      </div>
+      <div class="sim-item full">
+        <div class="sim-key">Saldo Líquido</div>
+        <div class="sim-val" id="simSaldo">R$ 0</div>
+        <div class="sim-taxa" id="simTaxa">—</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- META DE BANCA -->
+  <div class="section-label-new">Meta de Banca</div>
+  <div class="card">
+    <div class="meta-input-wrap">
+      <span>R$</span>
+      <input type="number" id="metaInput" min="0" step="100" placeholder="Valor alvo">
+    </div>
+    <div class="meta-result" id="metaResult">Digite seu valor alvo acima para calcular.</div>
+  </div>
+
+  <!-- EDUCACIONAL -->
+  <div class="section-label">Protocolo de Entradas</div>
+  <div class="edu-grid">
+    <div class="edu-card">
+      <span class="edu-badge c1">C1 — Confirmada</span>
+      <p class="edu-text">Entrada com aprovação matemática completa pelo scanner. Maior confiança, stake cheio.</p>
+    </div>
+    <div class="edu-card">
+      <span class="edu-badge c2">C2 — Tática</span>
+      <p class="edu-text">Operação de risco maior, sem confirmação total. Stake reduzido a 50% do C1 automaticamente.</p>
+    </div>
+  </div>
+  <div class="golden-rule">
+    <span class="golden-icon">⚠</span>
+    <p class="golden-text"><strong>Regra de Ouro:</strong> Nunca exponha mais de <strong>20% da banca</strong> em um único dia — independente do nível de risco escolhido.</p>
+  </div>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="footer-text">BancaOS — <span>Protocolo Greenz.</span> Lucro Chato. Todo dia.</div>
+  </footer>
+
+</div>
+
+<script>
+  const RISK_CONFIG = {
+    conservador: { pct: 0.02, max: 3 },
+    moderado:    { pct: 0.05, max: 5 },
+    agressivo:   { pct: 0.10, max: 8 },
+  };
+
+  let banca = 1000;
+  let risk  = 'conservador';
+
+  const bancaInput  = document.getElementById('bancaInput');
+  const bancaSlider = document.getElementById('bancaSlider');
+
+  function fmt(val) {
+    return val.toLocaleString('pt-BR', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  }
+
+  function fmtInt(val) {
+    return val.toLocaleString('pt-BR', { minimumFractionDigits: 0, maximumFractionDigits: 0 });
+  }
+
+  function animateEl(id, newText) {
+    const el = document.getElementById(id);
+    el.classList.add('updating');
+    setTimeout(() => {
+      el.textContent = newText;
+      el.classList.remove('updating');
+    }, 120);
+  }
+
+  function calc() {
+    const cfg  = RISK_CONFIG[risk];
+    const c1   = banca * cfg.pct;
+    const c2   = c1 * 0.5;
+    const exp  = c1 * cfg.max;
+
+    animateEl('stakeMain',    fmt(c1));
+    animateEl('stakeC1',      'R$ ' + fmtInt(c1));
+    animateEl('stakeC2',      'R$ ' + fmtInt(c2));
+    animateEl('maxEntradas',  cfg.max.toString());
+    animateEl('exposicao',    'R$ ' + fmtInt(exp));
+
+    calcAlerta(exp);
+    calcSimulador();
+    calcMeta();
+  }
+
+  function calcAlerta(exp) {
+    const expPct = exp / banca;
+    const el = document.getElementById('alertaExposicao');
+    if (expPct > 0.20) {
+      el.className = 'alert-card danger';
+      el.textContent = '⚠️ Atenção: sua exposição diária supera 20% da banca. Considere reduzir o nível de risco.';
+    } else if (expPct >= 0.15) {
+      el.className = 'alert-card warning';
+      el.textContent = '⚡ Exposição no limite. Opere com cautela.';
+    } else {
+      el.className = 'alert-card';
+      el.textContent = '';
+    }
+  }
+
+  function calcSimulador() {
+    const cfg    = RISK_CONFIG[risk];
+    const c1     = banca * cfg.pct;
+    const greens = parseInt(document.getElementById('simGreens').value) || 0;
+    const reds   = parseInt(document.getElementById('simReds').value)   || 0;
+
+    const lucro    = greens * c1 * 0.91;
+    const prejuizo = reds * c1;
+    const saldo    = lucro - prejuizo;
+    const total    = greens + reds;
+
+    animateEl('simLucro',    'R$ ' + fmtInt(lucro));
+    animateEl('simPrejuizo', 'R$ ' + fmtInt(prejuizo));
+
+    const saldoEl = document.getElementById('simSaldo');
+    saldoEl.classList.add('updating');
+    setTimeout(() => {
+      saldoEl.textContent = (saldo >= 0 ? '+R$ ' : '-R$ ') + fmtInt(Math.abs(saldo));
+      saldoEl.className = 'sim-val ' + (saldo >= 0 ? 'positive' : 'negative');
+    }, 120);
+
+    const taxaEl = document.getElementById('simTaxa');
+    taxaEl.textContent = total > 0
+      ? 'Taxa do dia: ' + (greens / total * 100).toFixed(0) + '% de acerto'
+      : '—';
+  }
+
+  function calcMeta() {
+    const metaVal = parseFloat(document.getElementById('metaInput').value);
+    const el      = document.getElementById('metaResult');
+
+    if (!metaVal || metaVal <= 0) {
+      el.innerHTML = 'Digite seu valor alvo acima para calcular.';
+      return;
+    }
+    if (metaVal <= banca) {
+      el.innerHTML = '<span class="ok">Você já atingiu sua meta! 🎯</span>';
+      return;
+    }
+
+    const cfg    = RISK_CONFIG[risk];
+    const c1     = banca * cfg.pct;
+    const greens = parseInt(document.getElementById('simGreens').value) || 0;
+    const reds   = parseInt(document.getElementById('simReds').value)   || 0;
+    const total  = greens + reds;
+
+    let dailyProfit, taxaStr;
+    if (total > 0) {
+      const lucro    = greens * c1 * 0.91;
+      const prejuizo = reds * c1;
+      dailyProfit = (lucro - prejuizo) / total;
+      taxaStr = (greens / total * 100).toFixed(0) + '% (seu ritmo atual)';
+    } else {
+      dailyProfit = c1 * 0.91 * 0.70 - c1 * 0.30;
+      taxaStr = '70% (padrão do protocolo)';
+    }
+
+    if (dailyProfit <= 0) {
+      el.innerHTML = '<span class="bad">Com esse ritmo, a meta não é atingível. Aumente a taxa de acerto.</span>';
+      return;
+    }
+
+    const nivelLabel = { conservador: 'Conservador', moderado: 'Moderado', agressivo: 'Agressivo' }[risk];
+    const dias = Math.ceil((metaVal - banca) / dailyProfit);
+    el.innerHTML =
+      'Com <span class="hl">R$ ' + fmtInt(banca) + '</span> de banca e nível ' +
+      '<span class="hl">' + nivelLabel + '</span>, você atinge ' +
+      '<span class="hl">R$ ' + fmtInt(metaVal) + '</span> em aproximadamente ' +
+      '<span class="hl">' + dias + ' dias úteis</span> — ' +
+      'assumindo taxa de acerto de <span class="hl">' + taxaStr + '</span>.';
+  }
+
+  function setRisk(btn) {
+    document.querySelectorAll('.risk-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    risk = btn.dataset.risk;
+    calc();
+  }
+
+  bancaSlider.addEventListener('input', () => {
+    banca = parseInt(bancaSlider.value);
+    bancaInput.value = banca;
+    updateSliderFill();
+    calc();
+  });
+
+  bancaInput.addEventListener('input', () => {
+    let v = parseInt(bancaInput.value) || 50;
+    v = Math.min(10000, Math.max(50, v));
+    banca = v;
+    bancaSlider.value = v;
+    updateSliderFill();
+    calc();
+  });
+
+  function updateSliderFill() {
+    const min = 50, max = 10000;
+    const pct = ((banca - min) / (max - min)) * 100;
+    bancaSlider.style.background =
+      `linear-gradient(to right, #007D10 ${pct}%, rgba(0,125,16,0.2) ${pct}%)`;
+  }
+
+  document.getElementById('simGreens').addEventListener('input', () => { calcSimulador(); calcMeta(); });
+  document.getElementById('simReds').addEventListener('input',   () => { calcSimulador(); calcMeta(); });
+  document.getElementById('metaInput').addEventListener('input', calcMeta);
+
+  updateSliderFill();
+  calc();
+</script>
+</body>
+</html>

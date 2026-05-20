@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Como Sobreviver ao Pior Dia de Reds — Greenz</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Playfair+Display:ital,wght@0,700;0,900;1,400&display=swap');
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0D1117;--card:#161B22;--border:#21262D;
+  --green:#007D10;--yellow:#E3EF26;
+  --text:#E6EDF3;--muted:#8B949E;
+  --red:#C50337;
+  --fs:17px;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--text);font-family:'DM Sans',sans-serif;font-size:var(--fs);line-height:1.8;min-height:100vh;padding-top:64px}
+
+/* PROGRESS BAR */
+#progress-bar{position:fixed;top:0;left:0;width:0%;height:3px;background:var(--green);z-index:1000;transition:width .4s ease;box-shadow:0 0 8px rgba(0,125,16,.6)}
+
+/* HEADER */
+header{position:fixed;top:3px;left:0;right:0;height:61px;background:rgba(13,17,23,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--border);z-index:999;display:flex;align-items:center;padding:0 20px;gap:12px}
+.hd-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.08em;color:var(--yellow);white-space:nowrap;cursor:pointer;flex-shrink:0}
+.hd-chapter{font-size:12px;color:var(--muted);flex:1;text-align:center;letter-spacing:.04em;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.hd-right{display:flex;align-items:center;gap:8px;flex-shrink:0}
+.hd-counter{font-size:11px;color:var(--muted);white-space:nowrap}
+.hd-btn{background:none;border:1px solid var(--border);border-radius:6px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:12px;padding:4px 8px;cursor:pointer;transition:all .2s;white-space:nowrap}
+.hd-btn:hover{border-color:var(--green);color:var(--text)}
+.hd-menu-wrap{position:relative}
+#menu-dropdown{display:none;position:absolute;top:calc(100% + 8px);right:0;background:var(--card);border:1px solid var(--border);border-radius:10px;min-width:240px;overflow:hidden;z-index:200;box-shadow:0 8px 24px rgba(0,0,0,.4)}
+#menu-dropdown.open{display:block}
+.menu-item{display:block;width:100%;background:none;border:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:13px;padding:10px 16px;text-align:left;cursor:pointer;transition:background .15s,color .15s}
+.menu-item:hover{background:rgba(0,125,16,.12);color:var(--text)}
+.menu-item.read-item::after{content:'✓';float:right;color:var(--green)}
+
+/* CHAPTERS */
+.chapter{display:none;max-width:720px;margin:0 auto;padding:40px 32px 80px}
+.chapter.active{display:block;animation:fadeIn .3s ease}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+@media(max-width:600px){.chapter{padding:24px 20px 80px}}
+
+/* COVER */
+.cover{text-align:center;padding:80px 32px 80px}
+.cover-brand{font-size:12px;letter-spacing:.3em;text-transform:uppercase;color:var(--green);margin-bottom:32px}
+.cover-title{font-family:'Playfair Display',serif;font-size:clamp(28px,7vw,52px);font-weight:900;line-height:1.15;margin-bottom:24px;color:var(--text)}
+.cover-title em{color:var(--yellow);font-style:normal}
+.cover-sub{font-size:16px;color:var(--muted);max-width:480px;margin:0 auto 48px;line-height:1.7}
+.btn-start{display:inline-block;background:var(--green);color:var(--yellow);font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.12em;padding:16px 48px;border-radius:10px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 0 20px rgba(0,125,16,.3)}
+.btn-start:hover{transform:translateY(-2px);box-shadow:0 4px 28px rgba(0,125,16,.5)}
+.cover-line{width:60px;height:2px;background:var(--green);margin:48px auto 0}
+
+/* TYPOGRAPHY */
+h1{font-family:'Playfair Display',serif;font-size:clamp(26px,5vw,40px);font-weight:900;line-height:1.2;margin-bottom:8px;color:var(--text)}
+h2{font-family:'Playfair Display',serif;font-size:clamp(18px,3.5vw,26px);font-weight:700;line-height:1.3;margin:36px 0 12px;color:var(--text)}
+.ch-label{font-size:11px;letter-spacing:.25em;text-transform:uppercase;color:var(--green);margin-bottom:4px}
+.ch-desc{font-size:15px;color:var(--muted);margin-bottom:32px;font-style:italic}
+p{margin-bottom:16px}
+strong{color:var(--text);font-weight:600}
+
+/* PROTOCOL STEPS */
+.step-box{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--green);border-radius:8px;padding:20px 24px;margin:20px 0}
+.step-box .step-num{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:.2em;color:var(--green);margin-bottom:6px}
+.step-box h3{font-size:15px;font-weight:600;color:var(--text);margin-bottom:10px}
+
+/* QUOTE */
+.quote{border-left:3px solid var(--yellow);padding:16px 24px;margin:28px 0;background:rgba(227,239,38,.04);border-radius:0 8px 8px 0}
+.quote p{font-family:'Playfair Display',serif;font-size:18px;font-style:italic;color:var(--text);margin:0;line-height:1.6}
+
+/* CYCLE DIAGRAM */
+.cycle{display:flex;flex-direction:column;align-items:center;gap:0;margin:32px 0}
+.cycle-step{width:100%;max-width:400px;border-radius:10px;padding:14px 20px;text-align:center;font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:.12em}
+.cycle-arrow{font-size:22px;color:var(--muted);line-height:1.2;margin:2px 0}
+.cycle-sub{font-size:12px;font-family:'DM Sans',sans-serif;font-weight:400;letter-spacing:.02em;margin-top:2px;opacity:.85}
+.c-s1{background:rgba(227,239,38,.12);border:1px solid rgba(227,239,38,.35);color:var(--yellow)}
+.c-s2{background:rgba(227,150,0,.12);border:1px solid rgba(227,150,0,.35);color:#E39600}
+.c-s3{background:rgba(220,100,0,.12);border:1px solid rgba(220,100,0,.35);color:#DC6400}
+.c-s4{background:rgba(210,50,0,.12);border:1px solid rgba(210,50,0,.35);color:#D23200}
+.c-s5{background:rgba(197,3,55,.1);border:1px solid rgba(197,3,55,.3);color:#E05070}
+.c-s6{background:rgba(197,3,55,.2);border:1px solid rgba(197,3,55,.5);color:var(--red)}
+
+/* IRON RULES */
+.iron-rule{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:28px;margin:24px 0}
+.iron-rule .rule-num{font-family:'Bebas Neue',sans-serif;font-size:52px;color:var(--yellow);line-height:1;margin-bottom:4px}
+.iron-rule .rule-title{font-size:17px;font-weight:600;color:var(--text);margin-bottom:12px}
+.iron-rule .rule-body{font-size:14px;color:var(--muted);line-height:1.7}
+
+/* TABLE */
+.table-wrap{overflow-x:auto;margin:20px 0}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{background:var(--card);color:var(--green);font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
+td{padding:9px 14px;border-bottom:1px solid rgba(33,38,45,.6);color:var(--muted)}
+tr:hover td{background:rgba(22,27,34,.6);color:var(--text)}
+
+/* CHECKLIST */
+.checklist-section{margin:24px 0}
+.cl-group-title{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--green);margin:20px 0 10px}
+.cl-item{display:flex;align-items:flex-start;gap:12px;padding:10px 0;border-bottom:1px solid rgba(33,38,45,.5);cursor:pointer;transition:opacity .2s}
+.cl-item:hover{opacity:.85}
+.cl-item input[type=checkbox]{width:18px;height:18px;accent-color:var(--green);flex-shrink:0;margin-top:3px;cursor:pointer}
+.cl-item label{font-size:14px;color:var(--muted);line-height:1.5;cursor:pointer}
+.cl-item.checked label{color:var(--text);text-decoration:line-through;opacity:.6}
+.cl-counter{margin-top:16px;font-size:13px;color:var(--muted);text-align:center}
+.cl-counter span{color:var(--yellow);font-weight:600}
+.cl-warning{background:rgba(197,3,55,.1);border:1px solid rgba(197,3,55,.3);border-radius:8px;padding:14px 18px;font-size:13px;color:#E05070;margin-top:16px;display:none}
+
+/* QUIZ */
+.quiz-card{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--yellow);border-radius:10px;padding:24px;margin:32px 0}
+.quiz-title{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--yellow);margin-bottom:12px}
+.quiz-q{font-size:16px;font-weight:600;color:var(--text);margin-bottom:20px;line-height:1.5}
+.quiz-options{display:flex;flex-direction:column;gap:10px}
+.quiz-opt{background:#0D1117;border:1px solid var(--border);border-radius:8px;padding:12px 16px;font-size:14px;color:var(--muted);cursor:pointer;transition:all .2s;text-align:left;font-family:'DM Sans',sans-serif}
+.quiz-opt:hover{border-color:var(--yellow);color:var(--text)}
+.quiz-opt.selected{border-color:var(--green);background:rgba(0,125,16,.1);color:var(--text)}
+.quiz-saved{font-size:12px;color:var(--green);margin-top:12px;display:none}
+
+/* SUMMARY */
+.summary-card{background:var(--card);border:1px solid var(--green);border-radius:12px;padding:28px;margin:28px 0}
+.summary-title{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--yellow);margin-bottom:16px}
+.summary-text{font-size:15px;color:var(--text);line-height:1.8}
+.summary-empty{font-size:14px;color:var(--muted);font-style:italic}
+
+/* CTA */
+.cta-block{text-align:center;padding:32px;background:rgba(0,125,16,.08);border:1px solid rgba(0,125,16,.3);border-radius:12px;margin:32px 0}
+.btn-vip{display:inline-block;background:var(--green);color:var(--yellow);font-family:'Bebas Neue',sans-serif;font-size:18px;letter-spacing:.12em;padding:14px 40px;border-radius:10px;border:none;cursor:pointer;text-decoration:none;transition:all .2s;box-shadow:0 0 20px rgba(0,125,16,.3)}
+.btn-vip:hover{transform:translateY(-2px);box-shadow:0 4px 24px rgba(0,125,16,.5)}
+.cta-sub{font-size:13px;color:var(--muted);margin-top:14px;line-height:1.6}
+
+/* NAV */
+.chapter-nav{display:flex;justify-content:space-between;align-items:center;margin-top:48px;padding-top:24px;border-top:1px solid var(--border);gap:12px;flex-wrap:wrap}
+.nav-btn{background:var(--card);border:1px solid var(--border);border-radius:8px;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:14px;padding:10px 20px;cursor:pointer;transition:all .2s;flex:1;max-width:200px}
+.nav-btn:hover{border-color:var(--green);color:var(--text)}
+.nav-btn.primary{background:var(--green);border-color:var(--green);color:var(--yellow);font-weight:600}
+.nav-btn:disabled{opacity:.3;cursor:not-allowed}
+.mark-btn{background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:13px;padding:8px 16px;cursor:pointer;transition:all .2s;font-family:'DM Sans',sans-serif}
+.mark-btn:hover{border-color:var(--green);color:var(--green)}
+.mark-btn.done{background:rgba(0,125,16,.15);border-color:var(--green);color:var(--green)}
+
+/* FONT SIZE CLASSES */
+body.fs-sm{font-size:15px}
+body.fs-md{font-size:17px}
+body.fs-lg{font-size:19px}
+
+/* MISC */
+.divider{height:1px;background:var(--border);margin:32px 0}
+ul,ol{padding-left:20px;margin-bottom:16px}
+li{margin-bottom:6px;color:var(--muted)}
+li strong{color:var(--text)}
+.tilt-signs li{list-style:none;padding-left:0;padding:6px 0;border-bottom:1px solid rgba(33,38,45,.4);color:var(--muted)}
+.tilt-signs li::before{content:"—";color:var(--red);margin-right:8px}
+.example-box{background:rgba(0,125,16,.06);border:1px solid rgba(0,125,16,.2);border-radius:8px;padding:16px 20px;margin:16px 0;font-size:14px;color:var(--muted)}
+.example-box strong{color:var(--green)}
+</style>
+</head>
+<body>
+
+<div id="progress-bar"></div>
+
+<header>
+  <div class="hd-logo" onclick="goTo(0)">GREENZ</div>
+  <div class="hd-chapter" id="hd-chapter">Capa</div>
+  <div class="hd-right">
+    <span class="hd-counter" id="hd-counter">0 de 8 lidos</span>
+    <button class="hd-btn" onclick="adjustFont(-1)">A−</button>
+    <button class="hd-btn" onclick="adjustFont(1)">A+</button>
+    <div class="hd-menu-wrap">
+      <button class="hd-btn" onclick="toggleMenu()">Capítulos ▾</button>
+      <div id="menu-dropdown">
+        <button class="menu-item" data-ch="0" onclick="goTo(0);toggleMenu()">Capa</button>
+        <button class="menu-item" data-ch="1" onclick="goTo(1);toggleMenu()">Introdução — O dia que você já conhece de cor</button>
+        <button class="menu-item" data-ch="2" onclick="goTo(2);toggleMenu()">Cap. 1 — A Psicologia do Red</button>
+        <button class="menu-item" data-ch="3" onclick="goTo(3);toggleMenu()">Cap. 2 — Protocolo dos 30 Minutos</button>
+        <button class="menu-item" data-ch="4" onclick="goTo(4);toggleMenu()">Cap. 3 — O Cálculo da Diluição</button>
+        <button class="menu-item" data-ch="5" onclick="goTo(5);toggleMenu()">Cap. 4 — As 3 Regras de Ferro</button>
+        <button class="menu-item" data-ch="6" onclick="goTo(6);toggleMenu()">Cap. 5 — O Reset Mental</button>
+        <button class="menu-item" data-ch="7" onclick="goTo(7);toggleMenu()">Cap. 6 — Checklist do Dia Depois</button>
+        <button class="menu-item" data-ch="8" onclick="goTo(8);toggleMenu()">Conclusão + Protocolo Personalizado</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- CAPA -->
+<div class="chapter active" id="ch-0">
+  <div class="cover">
+    <div class="cover-brand">Greenz | Análise. Disciplina. Resultado.</div>
+    <h1 class="cover-title">Como Sobreviver ao <em>Pior Dia de Reds</em> Sem Quebrar a Banca</h1>
+    <p class="cover-sub">O protocolo prático para proteger sua banca quando o emocional quer te destruir</p>
+    <button class="btn-start" onclick="goTo(1)">Começar a Ler</button>
+    <div class="cover-line"></div>
+  </div>
+</div>
+
+<!-- INTRODUÇÃO -->
+<div class="chapter" id="ch-1">
+  <div class="ch-label">Introdução</div>
+  <h1>O dia que você já conhece de cor</h1>
+  <div class="ch-desc">O roteiro que se repete — e o que muda a partir de agora</div>
+
+  <p>Eram 22h47. Dois reds seguidos em jogos que "não tinham como perder". A raiva subiu rápido — aquela sensação de injustiça misturada com adrenalina. O cérebro fez um cálculo instantâneo: <em>"se eu dobrar o stake agora, recupero tudo em uma entrada."</em></p>
+
+  <p>Você abriu o app. Procurou o jogo mais seguro que encontrou. Apostou o dobro. Deu red.</p>
+
+  <p>Aí veio o desespero. E o ciclo recomeçou.</p>
+
+  <div class="quote"><p>"A diferença entre quem quebra a banca e quem sobrevive não está na qualidade dos palpites — está no que você faz nos 30 minutos depois do red."</p></div>
+
+  <p>Esse roteiro não é uma exceção. É a regra. Acontece com apostadores iniciantes, intermediários e com gente que aposta há anos.</p>
+
+  <p>Esse guia existe porque o sistema não pode te salvar do seu próprio cérebro. Nenhuma odd, nenhuma análise estatística, nenhuma dica do melhor tipster do mundo vai adiantar se você não tiver um protocolo claro para o momento em que o emocional toma o controle.</p>
+
+  <p>O que você vai encontrar aqui é esse protocolo. Direto, prático, testado. Sem julgamento — porque quem escreve isso entende que você já perdeu dinheiro e não precisa de sermão. Precisa de solução.</p>
+
+  <p>Vamos lá.</p>
+
+  <div class="chapter-nav">
+    <button class="nav-btn" onclick="goTo(0)">← Capa</button>
+    <button class="mark-btn" id="mark-1" onclick="markRead(1)">✓ Marcar como lido</button>
+    <button class="nav-btn primary" onclick="goTo(2)">Capítulo 1 →</button>
+  </div>
+</div>
+
+<!-- CAP 1 -->
+<div class="chapter" id="ch-2">
+  <div class="ch-label">Capítulo 1</div>
+  <h1>A Psicologia do Red</h1>
+  <div class="ch-desc">Por que seu cérebro sabota você exatamente quando você mais precisa de clareza</div>
+
+  <p>Vamos ser honestos: no momento em que o placar vira contra você, uma parte do seu cérebro desliga. Não é fraqueza. É biologia.</p>
+
+  <h2>O que acontece no seu cérebro quando você toma um red</h2>
+  <p>O cérebro humano tem um mecanismo primitivo chamado <strong>aversão à perda</strong>. Estudos do campo da economia comportamental mostram que a dor de perder R$100 é psicologicamente quase duas vezes mais intensa do que o prazer de ganhar R$100. Isso significa que, quando você perde, seu cérebro entra em <strong>modo de emergência</strong> — como se a sobrevivência estivesse em jogo.</p>
+  <p>Nesse estado, a parte racional do cérebro (o córtex pré-frontal, responsável por decisões lógicas) perde espaço para a amígdala, que é o centro das emoções e reações instintivas. Em termos práticos: <strong>você literalmente perde a capacidade de raciocinar com clareza logo depois de um red.</strong></p>
+
+  <h2>O ciclo vicioso que quebra bancas</h2>
+  <div class="cycle">
+    <div class="cycle-step c-s1">RED<div class="cycle-sub">a perda ativa o modo de emergência emocional</div></div>
+    <div class="cycle-arrow">↓</div>
+    <div class="cycle-step c-s2">RAIVA<div class="cycle-sub">a amígdala assume o controle, racionalidade diminui</div></div>
+    <div class="cycle-arrow">↓</div>
+    <div class="cycle-step c-s3">STAKE MAIOR<div class="cycle-sub">o cérebro busca "compensação imediata" como solução</div></div>
+    <div class="cycle-arrow">↓</div>
+    <div class="cycle-step c-s4">RED MAIOR<div class="cycle-sub">a perda agora é maior, a dor é mais intensa</div></div>
+    <div class="cycle-arrow">↓</div>
+    <div class="cycle-step c-s5">DESESPERO<div class="cycle-sub">o estado emocional é tão elevado que qualquer decisão vira um erro</div></div>
+    <div class="cycle-arrow">↓</div>
+    <div class="cycle-step c-s6">BANCA DESTRUÍDA</div>
+  </div>
+  <p>O problema não é o primeiro red. O problema é o que você faz depois dele.</p>
+
+  <h2>Por que aumentar o stake após um red é matematicamente suicida</h2>
+  <p>Existe uma ilusão muito comum chamada <strong>falácia do jogador</strong>: a crença de que, depois de resultados negativos seguidos, a probabilidade de um resultado positivo aumenta. Isso é falso.</p>
+  <p>Cada aposta é um evento independente. O jogo que começa agora não sabe nada sobre o que aconteceu antes. As odds não mudam porque você perdeu. <strong>O mercado não te deve nada.</strong></p>
+
+  <div class="example-box">
+    <strong>Exemplo real:</strong><br>
+    Banca inicial: R$1.000 | Stake padrão: R$50 (5%)<br>
+    1º red: −R$50 → Banca R$950. Você dobra: aposta R$100.<br>
+    2º red: −R$100 → Banca R$850. Você triplica: aposta R$150.<br>
+    3º red: −R$150 → Banca R$700.<br><br>
+    <strong>Em três apostas emocionais, você perdeu 30% da banca.</strong> Com o stake padrão e os mesmos três reds, teria perdido apenas 15%. A emoção literalmente dobrou seu prejuízo.
+  </div>
+
+  <h2>O conceito de tilt e por que ele destrói apostadores</h2>
+  <p>No poker profissional existe um termo chamado <strong>"tilt"</strong> — estado em que o jogador, após uma má batida, começa a tomar decisões irracionais movido pela emoção. Jogadores de alto nível treinam anos para reconhecer quando estão em tilt e têm protocolos claros para sair de mesa quando isso acontece.</p>
+  <p>Nas apostas esportivas, o tilt funciona da mesma forma. A diferença é que ninguém te ensinou a identificar o estado nem a sair de mesa.</p>
+
+  <p><strong>Os sinais de que você está em tilt:</strong></p>
+  <ul class="tilt-signs">
+    <li>Você está pensando em "recuperar" ao invés de "apostar bem"</li>
+    <li>Você está procurando o próximo jogo antes de processar o resultado do anterior</li>
+    <li>Você está aumentando o stake sem uma razão técnica para isso</li>
+    <li>Você está apostando em mercados que normalmente não analisa</li>
+    <li>Você está sentindo raiva, ansiedade ou urgência</li>
+  </ul>
+
+  <div class="quiz-card" id="quiz-1">
+    <div class="quiz-title">Pergunta — Reflexão rápida</div>
+    <div class="quiz-q">Você já apostou para recuperar um red hoje ou na última semana?</div>
+    <div class="quiz-options">
+      <button class="quiz-opt" onclick="saveQuiz(1,'A',this)">A) Sim, aconteceu</button>
+      <button class="quiz-opt" onclick="saveQuiz(1,'B',this)">B) Não, me controlei</button>
+      <button class="quiz-opt" onclick="saveQuiz(1,'C',this)">C) Acontece sempre comigo</button>
+    </div>
+    <div class="quiz-saved" id="quiz-1-saved">✓ Resposta salva</div>
+  </div>
+
+  <div class="chapter-nav">
+    <button class="nav-btn" onclick="goTo(1)">← Introdução</button>
+    <button class="mark-btn" id="mark-2" onclick="markRead(2)">✓ Marcar como lido</button>
+    <button class="nav-btn primary" onclick="goTo(3)">Capítulo 2 →</button>
+  </div>
+</div>
+
+<!-- CAP 2 -->
+<div class="chapter" id="ch-3">
+  <div class="ch-label">Capítulo 2</div>
+  <h1>O Protocolo dos Primeiros 30 Minutos</h1>
+  <div class="ch-desc">O que fazer exatamente quando o red aparece na tela — antes que o emocional tome o controle</div>
+
+  <p>A janela mais perigosa para qualquer apostador é o intervalo entre o red e a próxima aposta. É nesses 30 minutos que a maioria das bancas são destruídas. O protocolo a seguir existe para ocupar esse espaço com ações concretas que te afastam da impulsividade e te trazem de volta à razão.</p>
+  <p><strong>Siga os passos na ordem. Não pule nenhum.</strong></p>
+
+  <div class="step-box">
+    <div class="step-num">PASSO 1</div>
+    <h3>Feche o app da casa de apostas imediatamente</h3>
+    <p>Não daqui a pouco. Agora. Enquanto o app estiver aberto, o próximo jogo está a dois toques de distância. E o seu cérebro, nesse momento, está ativamente procurando uma saída emocional.</p>
+    <p>Feche o app. Coloque o celular virado para baixo ou em outro cômodo se precisar. O mercado não vai acabar. As odds vão continuar existindo quando você voltar com a cabeça no lugar.</p>
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">PASSO 2</div>
+    <h3>Registre o prejuízo no papel com números reais, sem arredondamento</h3>
+    <p>Abra um caderno, o bloco de notas do celular ou uma planilha. Escreva: data, valor apostado, odd, resultado, perda real (valor exato), banca antes, banca agora.</p>
+    <p>Esse exercício transforma a perda de uma sensação vaga e assustadora em um número concreto. Números concretos são gerenciáveis. Quando você escreve "perdi R$73,50", o cérebro começa a processar isso como dado — não como catástrofe.</p>
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">PASSO 3</div>
+    <h3>Calcule quanto representa da banca total em porcentagem</h3>
+    <p>Pegue o valor que você perdeu e divida pela banca total antes da perda. Multiplique por 100.</p>
+    <div class="example-box"><strong>Exemplo:</strong> perdeu R$50. Banca era R$800. → 50 ÷ 800 = 0,0625 × 100 = <strong>6,25%</strong></div>
+    <p>A maioria das perdas que parecem catastróficas na hora do red representam menos de 10% da banca total. O cérebro em tilt amplifica o tamanho do problema. Os números reais reduzem ele de volta ao tamanho real.</p>
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">PASSO 4</div>
+    <h3>Defina o teto de perda diária com a regra dos 5%</h3>
+    <p>Antes de qualquer nova aposta no mesmo dia, você precisa ter um limite claro. A regra é simples: <strong>o máximo que você pode perder em um único dia é 5% da sua banca total.</strong></p>
+    <p>Se você já atingiu ou ultrapassou esse teto com o red que acabou de tomar, a decisão já foi tomada: o dia acabou. Não tem próxima aposta hoje. Vai para o Capítulo 5.</p>
+  </div>
+
+  <div class="step-box">
+    <div class="step-num">PASSO 5</div>
+    <h3>Decida conscientemente: parar ou continuar com protocolo</h3>
+    <p>Faça as perguntas abaixo em voz alta ou escrita — não apenas na cabeça:</p>
+    <ul>
+      <li><em>"Eu estou pensando em apostar de novo porque vejo uma oportunidade técnica real, ou porque quero recuperar o que perdi?"</em></li>
+      <li><em>"Se eu não tivesse tomado o red, eu apostaria nesse jogo agora?"</em></li>
+      <li><em>"Meu stake para a próxima aposta seria o mesmo que eu usaria em um dia normal?"</em></li>
+    </ul>
+    <p>Se a resposta para qualquer uma dessas perguntas revelar que a motivação é emocional — você para. O dia acabou.</p>
+  </div>
+
+  <div class="quote"><p>"A diferença entre apostadores profissionais e amadores não está em nunca tomar red. Está em saber quando parar."</p></div>
+
+  <div class="chapter-nav">
+    <button class="nav-btn" onclick="goTo(2)">← Cap. 1</button>
+    <button class="mark-btn" id="mark-3" onclick="markRead(3)">✓ Marcar como lido</button>
+    <button class="nav-btn primary" onclick="goTo(4)">Capítulo 3 →</button>
+  </div>
+</div>
+
+<!-- CAP 3 -->
+<div class="chapter" id="ch-4">
+  <div class="ch-label">Capítulo 3</div>
+  <h1>O Cálculo da Diluição</h1>
+  <div class="ch-desc">Como transformar um prejuízo pesado em algo que sua banca absorve sem drama</div>
+
+  <p>Você tomou um red significativo. Fez o protocolo dos 30 minutos. Decidiu parar por hoje. Ótimo — isso já te coloca no percentual de apostadores que sobrevivem no longo prazo.</p>
+  <p>Mas agora vem uma pergunta prática: e amanhã? Como você retoma as apostas sem sentir o peso desse prejuízo empurrando você para decisões ruins?</p>
+  <p>A resposta é o <strong>cálculo da diluição</strong>.</p>
+
+  <h2>O que é diluição de prejuízo</h2>
+  <p>Diluição é o processo de distribuir o impacto de uma perda ao longo de um período, reduzindo levemente o stake diário até que a banca se recupere de forma orgânica. Em vez de tentar recuperar tudo de uma vez — o que leva ao ciclo do tilt — você dilui o impacto em 15 dias.</p>
+  <div class="quote"><p>"Ao invés de sentir que precisa recuperar R$200 amanhã, você percebe que precisa apenas apostar R$13,33 a menos por dia durante 15 dias. Isso é completamente administrável."</p></div>
+
+  <h2>A fórmula exata</h2>
+  <div class="iron-rule">
+    <div class="rule-num">÷15</div>
+    <div class="rule-title">REDUÇÃO DIÁRIA DO STAKE = Prejuízo total ÷ 15</div>
+    <div class="rule-body">Simples assim. O número que sai dessa divisão é o quanto você reduz do seu stake padrão durante os próximos 15 dias.<br><br><strong>Exemplo:</strong> stake de R$50, perdeu R$200 → R$200 ÷ 15 = R$13,33 → novo stake por 15 dias: R$36,67</div>
+  </div>
+
+  <h2>Tabela de recuperação progressiva</h2>
+  <div class="table-wrap">
+    <table>
+      <tr><th>Prejuízo</th><th>Redução diária</th><th>Novo stake</th><th>Duração</th></tr>
+      <tr><td>R$50</td><td>R$3,33</td><td>R$46,67</td><td>15 dias</td></tr>
+      <tr><td>R$100</td><td>R$6,67</td><td>R$43,33</td><td>15 dias</td></tr>
+      <tr><td>R$150</td><td>R$10,00</td><td>R$40,00</td><td>15 dias</td></tr>
+      <tr><td>R$200</td><td>R$13,33</td><td>R$36,67</td><td>15 dias</td></tr>
+      <tr><td>R$300</td><td>R$20,00</td><td>R$30,00</td><td>15 dias</td></tr>
+      <tr><td>R$500</td><td>R$33,33</td><td>R$16,67</td><td>15 dias</td></tr>
+    </table>
+  </div>
+
+  <p>Se o stake calculado ficar abaixo de R$10 ou abaixo de 1% da sua banca atual, você precisa pausar as apostas por pelo menos 5 dias antes de retomar. Isso indica que o prejuízo foi proporcional demais e sua banca precisa de estabilidade, não de novas apostas imediatas.</p>
+
+  <h2>Por que 15 dias e não 7 ou 30?</h2>
+  <p>Sete dias criam uma redução de stake muito grande, o que gera frustração e a tentação de ignorar o protocolo. Trinta dias criam um período longo demais, onde a maioria das pessoas abandona o processo na metade.</p>
+  <p>Quinze dias é o equilíbrio entre sentir que o protocolo está funcionando e não sentir que a redução é punitiva demais.</p>
+
+  <div class="chapter-nav">
+    <button class="nav-btn" onclick="goTo(3)">← Cap. 2</button>
+    <button class="mark-btn" id="mark-4" onclick="markRead(4)">✓ Marcar como lido</button>
+    <button class="nav-btn primary" onclick="goTo(5)">Capítulo 4 →</button>
+  </div>
+</div>
+
+<!-- CAP 4 -->
+<div class="chapter" id="ch-5">
+  <div class="ch-label">Capítulo 4</div>
+  <h1>As 3 Regras de Ferro</h1>
+  <div class="ch-desc">Não são sugestões. São limites. E eles existem para te proteger de você mesmo.</div>
+
+  <p>Regras de ferro são diferentes de estratégias. Estratégias você analisa, adapta, questiona. <strong>Regras de ferro você segue sem negociação</strong>, especialmente quando o emocional está alto — porque é exatamente nesses momentos que o cérebro vai criar argumentos convincentes para quebrá-las.</p>
+
+  <div class="iron-rule">
+    <div class="rule-num">1</div>
+    <div class="rule-title">Nunca aposte mais de 3% da banca em uma entrada após um red</div>
+    <div class="rule-body">Seu stake padrão pode ser 5% da banca. Tudo bem. Mas no dia seguinte a um red — ou no mesmo dia, se você continuar apostando dentro do protocolo — o limite cai para 3%.<br><br>Por quê? Porque sua percepção de risco está distorcida. Após uma perda, o cérebro tem uma tendência de superestimar a confiança na próxima aposta como forma de compensação psicológica. <strong>O limite de 3% não é porque a análise ficou pior. É porque a sua capacidade de avaliar a análise ficou comprometida.</strong><br><br>Banca R$800 → Stake normal R$40 (5%) → Stake após red: R$24 (3%)</div>
+  </div>
+
+  <div class="iron-rule">
+    <div class="rule-num">2</div>
+    <div class="rule-title">Máximo 2 entradas no dia seguinte a uma sequência de reds</div>
+    <div class="rule-body">Sequência de reds significa dois ou mais reds no mesmo dia. No dia seguinte a isso, independente de quantas oportunidades você enxergar, o limite é 2 entradas.<br><br>Primeiro: você ainda está processando emocionalmente. Segundo: limitar o volume de apostas limita o volume de exposição ao risco em um momento em que a disciplina está sendo testada. <strong>Duas entradas com análise cuidadosa sempre superam cinco entradas no automático.</strong></div>
+  </div>
+
+  <div class="iron-rule">
+    <div class="rule-num">3</div>
+    <div class="rule-title">Se perder 10% da banca em um dia — pausa obrigatória de 48 horas</div>
+    <div class="rule-body">Essa é a mais difícil de cumprir. E é a mais importante.<br><br>Se em qualquer dia você atingir uma perda acumulada de 10% da banca total, as apostas param imediatamente e só retomam após 48 horas completas. Não 24 horas. Não "depois que eu dormir". <strong>48 horas.</strong><br><br>Por que 48 horas? Porque uma perda dessa magnitude em um único dia geralmente indica que algo saiu do controle. 48 horas dá tempo para revisar o que aconteceu sem a dor aguda da perda recente, identificar violações de protocolo e retomar com o cálculo de diluição já aplicado.<br><br>Durante a pausa de 48 horas, você pode acompanhar os jogos, fazer análises. Só não aposta. O mercado vai continuar existindo quando você voltar.</div>
+  </div>
+
+  <h2>Quebrando uma regra de ferro</h2>
+  <p>Se em algum momento você quebrar uma dessas regras — e isso pode acontecer, porque você é humano — não entre em espiral de culpa. Apenas registre o que aconteceu, aplique o protocolo do Capítulo 2 e reinicie.</p>
+  <div class="quote"><p>"A disciplina não é perfeição. É consistência ao longo do tempo. Um deslize registrado e corrigido é completamente diferente de um padrão de comportamento ignorado."</p></div>
+
+  <div class="quiz-card" id="quiz-2">
+    <div class="quiz-title">Pergunta — Autoconhecimento</div>
+    <div class="quiz-q">Qual das 3 Regras de Ferro você tem mais dificuldade de cumprir?</div>
+    <div class="quiz-options">
+      <button class="quiz-opt" onclick="saveQuiz(2,'A',this)">A) Regra 1 — Stake máximo 3% da banca</button>
+      <button class="quiz-opt" onclick="saveQuiz(2,'B',this)">B) Regra 2 — Máximo 2 entradas após red</button>
+      <button class="quiz-opt" onclick="saveQuiz(2,'C',this)">C) Regra 3 — Pausa obrigatória de 48h</button>
+    </div>
+    <div class="quiz-saved" id="quiz-2-saved">✓ Resposta salva</div>
+  </div>
+
+  <div class="chapter-nav">
+    <button class="nav-btn" onclick="goTo(4)">← Cap. 3</button>
+    <button class="mark-btn" id="mark-5" onclick="markRead(5)">✓ Marcar como lido</button>
+    <button class="nav-btn primary" onclick="goTo(6)">Capítulo 5 →</button>
+  </div>
+</div>
+
+<!-- CAP 5 -->
+<div class="chapter" id="ch-6">
+  <div class="ch-label">Capítulo 5</div>
+  <h1>O Reset Mental</h1>
+  <div class="ch-desc">Como você separa o que aconteceu ontem do que vai acontecer hoje</div>
+
+  <p>Gestão de banca resolve o problema financeiro. O reset mental resolve o problema que vem antes do financeiro: a forma como você <em>entra</em> em uma aposta depois de um dia ruim.</p>
+  <p>Você pode seguir todos os protocolos desse guia à risca e ainda assim apostar mal — se entrar em cada jogo carregando o peso psicológico do que aconteceu antes.</p>
+
+  <h2>Separando emoção de decisão financeira</h2>
+  <p>Emoção e decisão financeira não combinam. Isso não significa que você precisa ser uma máquina sem sentimentos — significa que você precisa aprender a reconhecer quando um estado emocional está influenciando uma decisão que deveria ser técnica.</p>
+  <div class="quote"><p>"Eu apostaria nesse jogo com esse stake se não tivesse perdido ontem?"</p></div>
+  <p>Se a resposta for sim, a decisão está ancorada na análise. Se a resposta for não — ou se você hesitar — a emoção está participando da decisão. E aí o stake precisa ser menor ou a entrada precisa ser descartada.</p>
+
+  <h2>A técnica do "próximo jogo"</h2>
+  <p>No basquete profissional, treinadores usam a expressão <strong>"next play"</strong> — próxima jogada. Significa que, independente do que aconteceu antes, a atenção e o esforço total vão para a ação imediata, não para o resultado passado.</p>
+  <p>Para apostas, funciona da mesma forma. Cada entrada é um evento isolado. O jogo das 15h não sabe nada sobre o jogo das 12h. As odds não têm memória. O mercado não te deve nada e não tem nada contra você.</p>
+  <p>Quando você perceber que está pensando no red anterior enquanto analisa um novo jogo, use uma ancoragem física simples: respire fundo três vezes, lembre-se dos números que você calculou no Passo 2 do protocolo, e reformule internamente: <em>"Esse é um novo jogo. Minha análise vale ou não vale por mérito próprio."</em></p>
+
+  <h2>Como usar o histórico do protocolo para recuperar confiança</h2>
+  <p>Confiança real não vem de resultados. Vem de processo.</p>
+  <p>Quando você tem um registro documentado de apostas — incluindo os dias ruins — e consegue ver que seguiu o protocolo, que não estourou o teto diário, que aplicou a diluição corretamente, isso cria uma <strong>evidência concreta de disciplina</strong>.</p>
+  <p>Se você ainda não tem esse histórico, comece agora. Uma planilha simples com data, jogo, stake, odd, resultado e observações sobre o estado emocional é o suficiente. Com 30 dias de registro, você vai ter mais clareza sobre seus padrões do que qualquer sistema de análise pode te dar.</p>
+  <div class="quote"><p>"O apostador que conhece seus padrões é difícil de quebrar."</p></div>
+
+  <div class="chapter-nav">
+    <button class="nav-btn" onclick="goTo(5)">← Cap. 4</button>
+    <button class="mark-btn" id="mark-6" onclick="markRead(6)">✓ Marcar como lido</button>
+    <button class="nav-btn primary" onclick="goTo(7)">Capítulo 6 →</button>
+  </div>
+</div>
+
+<!-- CAP 6 — CHECKLIST -->
+<div class="chapter" id="ch-7">
+  <div class="ch-label">Capítulo 6</div>
+  <h1>Checklist do Dia Depois</h1>
+  <div class="ch-desc">Antes de abrir o app amanhã, passa por isso aqui</div>
+
+  <p>Esse checklist existe para os 5 minutos antes de você fazer a primeira aposta do dia seguinte a um red. Salva no celular. O objetivo é simples: garantir que você está apostando da cabeça, não do ego machucado.</p>
+
+  <div class="checklist-section">
+    <div class="cl-group-title">Sobre a Banca</div>
+    <div class="cl-item" id="cli-1"><input type="checkbox" id="cl-1" onchange="saveChecklist()"><label for="cl-1">Sei exatamente qual é o valor atual da minha banca (número real, não estimado)</label></div>
+    <div class="cl-item" id="cli-2"><input type="checkbox" id="cl-2" onchange="saveChecklist()"><label for="cl-2">Calculei o teto de perda do dia (5% da banca atual)</label></div>
+    <div class="cl-item" id="cli-3"><input type="checkbox" id="cl-3" onchange="saveChecklist()"><label for="cl-3">Defini o stake máximo para hoje (3% da banca, conforme Regra de Ferro 1)</label></div>
+    <div class="cl-item" id="cli-4"><input type="checkbox" id="cl-4" onchange="saveChecklist()"><label for="cl-4">Se perdi 10% ou mais ontem: as 48h de pausa já passaram?</label></div>
+
+    <div class="cl-group-title">Sobre o Estado Mental</div>
+    <div class="cl-item" id="cli-5"><input type="checkbox" id="cl-5" onchange="saveChecklist()"><label for="cl-5">Consigo descrever por que quero apostar hoje sem usar a palavra "recuperar"</label></div>
+    <div class="cl-item" id="cli-6"><input type="checkbox" id="cl-6" onchange="saveChecklist()"><label for="cl-6">Não estou sentindo raiva, ansiedade ou urgência relacionada ao dia anterior</label></div>
+    <div class="cl-item" id="cli-7"><input type="checkbox" id="cl-7" onchange="saveChecklist()"><label for="cl-7">Se alguém me perguntasse "por que essa entrada?", eu teria uma resposta técnica clara</label></div>
+    <div class="cl-item" id="cli-8"><input type="checkbox" id="cl-8" onchange="saveChecklist()"><label for="cl-8">Passei pela técnica do "próximo jogo" — esse dia começa do zero</label></div>
+
+    <div class="cl-group-title">Sobre a Análise</div>
+    <div class="cl-item" id="cli-9"><input type="checkbox" id="cl-9" onchange="saveChecklist()"><label for="cl-9">Cada entrada que vou fazer hoje já estava no meu radar antes do red, ou surgiu por análise nova — não por "compensação"</label></div>
+    <div class="cl-item" id="cli-10"><input type="checkbox" id="cl-10" onchange="saveChecklist()"><label for="cl-10">O stake de cada entrada está dentro do limite de 3% definido acima</label></div>
+    <div class="cl-item" id="cli-11"><input type="checkbox" id="cl-11" onchange="saveChecklist()"><label for="cl-11">Já defini quantas entradas vou fazer hoje (máximo 2 se ontem foi sequência de reds)</label></div>
+
+    <div class="cl-group-title">Sobre o Protocolo</div>
+    <div class="cl-item" id="cli-12"><input type="checkbox" id="cl-12" onchange="saveChecklist()"><label for="cl-12">Tenho o app fechado e só vou abrir quando terminar esse checklist</label></div>
+    <div class="cl-item" id="cli-13"><input type="checkbox" id="cl-13" onchange="saveChecklist()"><label for="cl-13">Tenho onde registrar os resultados de hoje</label></div>
+    <div class="cl-item" id="cli-14"><input type="checkbox" id="cl-14" onchange="saveChecklist()"><label for="cl-14">Se eu atingir o teto diário hoje, vou parar imediatamente — sem exceção</label></div>
+  </div>
+
+  <div class="cl-counter">Marcados: <span id="cl-count">0</span> de 13 itens</div>
+  <div class="cl-warning" id="cl-warning">⚠️ Você marcou menos de 10 itens. Você ainda não está pronto para apostar hoje. Feche esse guia, faça algo completamente diferente por mais algumas horas, e repita o checklist.</div>
+
+  <div class="chapter-nav">
+    <button class="nav-btn" onclick="goTo(6)">← Cap. 5</button>
+    <button class="mark-btn" id="mark-7" onclick="markRead(7)">✓ Marcar como lido</button>
+    <button class="nav-btn primary" onclick="goTo(8)">Conclusão →</button>
+  </div>
+</div>
+
+<!-- CONCLUSÃO + RESUMO -->
+<div class="chapter" id="ch-8">
+  <div class="ch-label">Conclusão</div>
+  <h1>O que esse guia realmente protege</h1>
+
+  <p>Vamos ser diretos.</p>
+  <p>O protocolo de diluição protege sua banca. As regras de ferro protegem sua banca. O checklist do dia depois protege sua banca.</p>
+  <p>Mas esse guia existe para proteger algo que vale mais do que qualquer banca: <strong>a sua cabeça.</strong></p>
+  <p>Porque aposta com cabeça destruída não é aposta. É automedicação cara. E apostador que não cuida do mental não quebra a banca uma vez — quebra repetidamente, reconstrói, quebra de novo, e em algum momento para de acreditar que é capaz de fazer isso funcionar.</p>
+  <p>Você é capaz. Mas não sem protocolo.</p>
+  <div class="quote"><p>"Esses momentos vão continuar acontecendo. Reds fazem parte do jogo. O que muda — o que esse guia muda — é o que você faz quando eles chegam."</p></div>
+  <p>Fecha o app. Registra o número. Calcula a diluição. Segue o protocolo. E amanhã você ainda tem banca para apostar.</p>
+
+  <div class="divider"></div>
+
+  <div class="summary-card">
+    <div class="summary-title">Seu Protocolo Personalizado</div>
+    <div id="summary-content"><div class="summary-empty">Responda as perguntas nos capítulos 1 e 4 para gerar seu protocolo personalizado.</div></div>
+  </div>
+
+  <div class="cta-block">
+    <a href="#vip" class="btn-vip">Acessar o Grupo VIP Greenz →</a>
+    <p class="cta-sub">No VIP você recebe entradas do protocolo toda noite + acompanhamento de banca em tempo real.<br>Se você leu esse guia até aqui, você já tem o perfil certo para estar lá.</p>
+  </div>
+
+  <div class="chapter-nav">
+    <button class="nav-btn" onclick="goTo(7)">← Cap. 6</button>
+    <button class="mark-btn" id="mark-8" onclick="markRead(8)">✓ Marcar como lido</button>
+    <button class="nav-btn primary" onclick="goTo(0)">↑ Início</button>
+  </div>
+</div>
+
+<script>
+const CHAPTER_NAMES = [
+  'Capa',
+  'Introdução — O dia que você já conhece de cor',
+  'Cap. 1 — A Psicologia do Red',
+  'Cap. 2 — Protocolo dos 30 Minutos',
+  'Cap. 3 — O Cálculo da Diluição',
+  'Cap. 4 — As 3 Regras de Ferro',
+  'Cap. 5 — O Reset Mental',
+  'Cap. 6 — Checklist do Dia Depois',
+  'Conclusão + Protocolo Personalizado'
+];
+
+const TOTAL_CHAPTERS = 8; // chapters 1-8
+
+let currentCh = 0;
+let readSet = new Set();
+
+function getLS(k, def){ try{ return JSON.parse(localStorage.getItem(k)) || def; }catch(e){ return def; } }
+function setLS(k, v){ try{ localStorage.setItem(k, JSON.stringify(v)); }catch(e){} }
+
+function init(){
+  // font size
+  const fs = getLS('greenz_fs', 'md');
+  document.body.className = 'fs-' + fs;
+
+  // read chapters
+  const rd = getLS('greenz_read', []);
+  readSet = new Set(rd);
+
+  // checklist
+  const cl = getLS('greenz_checklist', {});
+  for(let i=1;i<=14;i++){
+    const cb = document.getElementById('cl-'+i);
+    if(cb && cl[i]){ cb.checked = true; document.getElementById('cli-'+i).classList.add('checked'); }
+  }
+  updateClCount();
+
+  // quiz answers
+  restoreQuiz(1, getLS('greenz_p1',''));
+  restoreQuiz(2, getLS('greenz_p2',''));
+
+  // summary
+  updateSummary();
+  updateProgress();
+  updateCounter();
+  updateMarkButtons();
+  updateMenuItems();
+
+  // restore chapter
+  const saved = getLS('greenz_ch', 0);
+  goTo(saved, true);
+}
+
+function goTo(n, skipSave){
+  document.querySelectorAll('.chapter').forEach(c => c.classList.remove('active'));
+  document.getElementById('ch-'+n).classList.add('active');
+  currentCh = n;
+  document.getElementById('hd-chapter').textContent = CHAPTER_NAMES[n];
+  if(!skipSave) setLS('greenz_ch', n);
+  window.scrollTo({top:0, behavior:'smooth'});
+  if(n===8) updateSummary();
+}
+
+function markRead(chIndex){
+  readSet.add(chIndex);
+  setLS('greenz_read', [...readSet]);
+  updateProgress();
+  updateCounter();
+  updateMarkButtons();
+  updateMenuItems();
+}
+
+function updateProgress(){
+  const pct = (readSet.size / TOTAL_CHAPTERS) * 100;
+  document.getElementById('progress-bar').style.width = pct + '%';
+}
+
+function updateCounter(){
+  document.getElementById('hd-counter').textContent = readSet.size + ' de ' + TOTAL_CHAPTERS + ' lidos';
+}
+
+function updateMarkButtons(){
+  for(let i=1;i<=8;i++){
+    const btn = document.getElementById('mark-'+i);
+    if(btn){
+      if(readSet.has(i)){ btn.textContent='✓ Lido'; btn.classList.add('done'); }
+      else { btn.textContent='✓ Marcar como lido'; btn.classList.remove('done'); }
+    }
+  }
+}
+
+function updateMenuItems(){
+  document.querySelectorAll('.menu-item[data-ch]').forEach(btn => {
+    const ch = parseInt(btn.dataset.ch);
+    if(ch > 0 && readSet.has(ch)) btn.classList.add('read-item');
+    else btn.classList.remove('read-item');
+  });
+}
+
+function toggleMenu(){
+  document.getElementById('menu-dropdown').classList.toggle('open');
+}
+document.addEventListener('click', e => {
+  if(!e.target.closest('.hd-menu-wrap')) document.getElementById('menu-dropdown').classList.remove('open');
+});
+
+function adjustFont(dir){
+  const sizes = ['sm','md','lg'];
+  let cur = sizes.indexOf([...document.body.classList].find(c=>c.startsWith('fs-'))?.replace('fs-','') || 'md');
+  cur = Math.max(0, Math.min(2, cur + dir));
+  document.body.className = 'fs-' + sizes[cur];
+  setLS('greenz_fs', sizes[cur]);
+}
+
+function saveQuiz(q, ans, btn){
+  setLS('greenz_p'+q, ans);
+  const container = document.getElementById('quiz-'+q);
+  container.querySelectorAll('.quiz-opt').forEach(b => b.classList.remove('selected'));
+  btn.classList.add('selected');
+  const saved = document.getElementById('quiz-'+q+'-saved');
+  if(saved){ saved.style.display = 'block'; }
+  if(q===2) updateSummary();
+}
+
+function restoreQuiz(q, ans){
+  if(!ans) return;
+  const container = document.getElementById('quiz-'+q);
+  if(!container) return;
+  const opts = container.querySelectorAll('.quiz-opt');
+  const map = {A:0,B:1,C:2};
+  if(map[ans]!==undefined && opts[map[ans]]){
+    opts[map[ans]].classList.add('selected');
+    const saved = document.getElementById('quiz-'+q+'-saved');
+    if(saved) saved.style.display='block';
+  }
+}
+
+function saveChecklist(){
+  const state = {};
+  for(let i=1;i<=14;i++){
+    const cb = document.getElementById('cl-'+i);
+    state[i] = cb ? cb.checked : false;
+    const item = document.getElementById('cli-'+i);
+    if(item){ item.classList.toggle('checked', !!state[i]); }
+  }
+  setLS('greenz_checklist', state);
+  updateClCount();
+}
+
+function updateClCount(){
+  let count = 0;
+  for(let i=1;i<=13;i++){
+    const cb = document.getElementById('cl-'+i);
+    if(cb && cb.checked) count++;
+  }
+  const el = document.getElementById('cl-count');
+  if(el) el.textContent = count;
+  const warn = document.getElementById('cl-warning');
+  // show warning only if some are checked but < 10
+  if(warn) warn.style.display = (count > 0 && count < 10) ? 'block' : 'none';
+}
+
+const SUMMARIES = {
+  'CA': "Você reconhece o tilt mas ainda arrisca demais por entrada. Calcule o stake máximo antes do jogo, não depois do red.",
+  'CB': "Você está no caminho certo — reconhece o problema e tem dificuldade pontual com o volume. Limite suas entradas antes de abrir o app, não depois.",
+  'CC': "Você tem consciência do problema mas cede à pressão de recuperar. A pausa de 48h vai parecer impossível — é exatamente por isso que ela é obrigatória.",
+  'BA': "Boa disciplina emocional. Agora ajuste o tamanho do stake — é o último ajuste que separa consistência de resultado.",
+  'BB': "Você está em um nível avançado de autoconhecimento. Foque em documentar seus padrões — 30 dias de registro vão revelar oportunidades que nenhuma análise externa consegue.",
+  'BC': "Você tem disciplina emocional mas luta com a pausa longa. Trate as 48h como protocolo de manutenção, não punição.",
+  'AA': "Você reconhece o tilt mas ainda arrisca demais por entrada. Calcule o stake máximo antes do jogo, não depois do red.",
+  'AB': "Você está no caminho certo — reconhece o problema e tem dificuldade pontual com o volume. Limite suas entradas antes de abrir o app, não depois.",
+  'AC': "Você tem consciência do problema mas cede à pressão de recuperar. A pausa de 48h vai parecer impossível — é exatamente por isso que ela é obrigatória.",
+};
+// Override with exact spec
+const SUMMARY_MAP = {
+  'CC': "Seu maior risco é a espiral emocional combinada com a dificuldade de pausar. Comece pela Regra de Ferro 3 — sem ela, nenhum outro protocolo vai funcionar no momento crítico.",
+  'CA': "Você entra em tilt e ainda aumenta o tamanho da aposta. Fixe o stake antes de abrir qualquer app. Isso é inegociável.",
+  'CB': "Você perde o controle e ainda insiste em mais entradas. Limite de 2 apostas por dia após red é o protocolo mais urgente para você.",
+  'AC': "Você tem consciência do problema mas cede à pressão de recuperar. A pausa de 48h vai parecer impossível — é exatamente por isso que ela é obrigatória.",
+  'AA': "Você reconhece o tilt mas ainda arrisca demais por entrada. Calcule o stake máximo antes do jogo, não depois do red.",
+  'AB': "Você está no caminho certo — reconhece o problema e tem dificuldade pontual com o volume. Limite suas entradas antes de abrir o app, não depois.",
+  'BC': "Você tem disciplina emocional mas luta com a pausa longa. Trate as 48h como protocolo de manutenção, não punição.",
+  'BA': "Boa disciplina emocional. Agora ajuste o tamanho do stake — é o último ajuste que separa consistência de resultado.",
+  'BB': "Você está em um nível avançado de autoconhecimento. Foque em documentar seus padrões — 30 dias de registro vão revelar oportunidades que nenhuma análise externa consegue.",
+};
+
+function updateSummary(){
+  const p1 = getLS('greenz_p1','');
+  const p2 = getLS('greenz_p2','');
+  const el = document.getElementById('summary-content');
+  if(!el) return;
+  if(!p1 || !p2){
+    el.innerHTML = '<div class="summary-empty">Responda as perguntas nos Capítulos 1 e 4 para gerar seu protocolo personalizado.</div>';
+    return;
+  }
+  const key = p1 + p2;
+  const text = SUMMARY_MAP[key] || 'Continue seguindo o protocolo — você está no caminho certo.';
+  el.innerHTML = '<p class="summary-text">' + text + '</p>' +
+    '<p class="summary-text" style="margin-top:16px;color:var(--muted);font-size:13px">Todas as respostas levam ao mesmo ponto: o protocolo funciona quando você segue. A única variável é a consistência.</p>';
+}
+
+init();
+</script>
+</body>
+</html>
