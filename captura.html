@@ -4,380 +4,460 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Greenz · Grupo Gratuito — Finais NBA</title>
-<meta name="description" content="O protocolo matemático que acertou 42 greens nos playoffs. Entre no grupo gratuito e receba as melhores entradas para as Finais da NBA.">
+<meta name="description" content="O protocolo matemático que acertou 42 greens nos playoffs. Entre no grupo e receba as melhores entradas para as Finais da NBA de graça.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&display=swap" rel="stylesheet">
 
 <style>
-/* ── TOKENS ──────────────────────────────────────────────── */
-:root {
-  --bg:       #070A08;
-  --ink:      #F3F5F2;
-  --soft:     #8A938C;
-  --green:    #00A86B;
-  --lite:     #3FD99A;
-}
+/* ─── RESET ─────────────────────────────────────────────────── */
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
 
-/* ── BASE ────────────────────────────────────────────────── */
-*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-html { -webkit-text-size-adjust:100%; }
-
+/* ─── FUNDO ──────────────────────────────────────────────────── */
 body {
   font-family: 'DM Sans', sans-serif;
-  background: var(--bg);
-  color: var(--ink);
+  background: #0a1a0e;
+  background-image:
+    radial-gradient(ellipse at 50% -10%, rgba(0,168,107,0.45) 0%, rgba(0,140,80,0.2) 35%, transparent 65%),
+    linear-gradient(180deg, transparent 40%, #0a1a0e 80%);
+  background-attachment: fixed;
+  color: #F3F5F2;
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-  position: relative;
+  min-height: 100dvh;
 }
 
-/* ── GRADIENTE RESPIRANDO (idêntico ao index) ────────────── */
-body::before {
-  content: "";
-  position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  background:
-    radial-gradient(80% 42% at 50% -4%,  rgba(120,245,190,.36) 0%, rgba(120,245,190,0) 62%),
-    radial-gradient(95% 60% at 50%  2%,  rgba(63,217,154,.32) 0%, rgba(0,168,107,.12) 38%, rgba(7,10,8,0) 66%),
-    radial-gradient(70% 50% at 24% 12%,  rgba(0,168,107,.18) 0%, rgba(7,10,8,0) 58%),
-    radial-gradient(70% 50% at 76% 10%,  rgba(63,217,154,.14) 0%, rgba(7,10,8,0) 56%);
-  animation: breathe 9s ease-in-out infinite;
-}
-@keyframes breathe {
-  0%,100% { opacity:.88; transform:scale(1);   }
-  50%      { opacity:1;   transform:scale(1.05); }
+/* ─── WRAPPER ────────────────────────────────────────────────── */
+.page {
+  max-width: 390px;
+  margin: 0 auto;
+  padding: 32px 20px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
 }
 
-/* grão de textura */
-body::after {
-  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
-  opacity: .45;
-  background-image: radial-gradient(rgba(255,255,255,.022) .5px, transparent .5px);
-  background-size: 3px 3px;
+/* ─── ANIMAÇÕES ──────────────────────────────────────────────── */
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
+@keyframes pulseDot { 0%,100%{opacity:1} 50%{opacity:.25} }
 
-/* ── KEYFRAMES ───────────────────────────────────────────── */
-@keyframes rise  { from { opacity:0; transform:translateY(18px) } to { opacity:1; transform:none } }
-@keyframes fade  { from { opacity:0 }                              to { opacity:1 }                 }
-@keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-4px)} 40%,80%{transform:translateX(4px)} }
-@keyframes spin  { to { transform:rotate(360deg) } }
-
-/* ── WRAPPER ─────────────────────────────────────────────── */
-.wrap {
-  position: relative; z-index: 1;
-  max-width: 420px; margin: 0 auto;
-  padding:
-    max(28px, calc(env(safe-area-inset-top)    + 20px))
-    20px
-    max(20px, calc(env(safe-area-inset-bottom) + 12px));
-  display: flex; flex-direction: column; align-items: center; text-align: center;
-}
-
-/* ── LOGO ────────────────────────────────────────────────── */
-.logo-wrap {
-  margin-bottom: 20px;
-  opacity: 0; animation: rise .6s ease 0s forwards;
-  position: relative; display: inline-block;
-}
-.logo-wrap::after {
-  content: "";
-  position: absolute; inset: -12px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(63,217,154,.28) 0%, rgba(0,168,107,.08) 55%, transparent 75%);
-  pointer-events: none;
-}
-.logo-svg {
-  width: 72px; height: 72px;
-  filter: drop-shadow(0 0 14px rgba(63,217,154,.5));
-}
-
-/* ── BADGE ───────────────────────────────────────────────── */
+/* ─── 1. BADGE ───────────────────────────────────────────────── */
 .badge {
-  display: inline-flex; align-items: center; gap: 7px;
-  font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
-  color: var(--lite);
-  background: rgba(63,217,154,.08);
-  border: 1px solid rgba(63,217,154,.30);
-  padding: 6px 16px; border-radius: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid rgba(63,217,154,.35);
+  background: rgba(63,217,154,.07);
+  border-radius: 20px;
+  padding: 5px 16px;
   margin-bottom: 20px;
-  opacity: 0; animation: rise .55s ease .1s forwards;
+  animation: fadeUp .5s ease forwards;
 }
 .badge-dot {
-  width: 6px; height: 6px; border-radius: 50%;
-  background: var(--lite); box-shadow: 0 0 7px var(--lite);
-  flex-shrink: 0; animation: pulse 1.8s infinite;
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #3FD99A;
+  box-shadow: 0 0 6px #3FD99A;
+  flex-shrink: 0;
+  animation: pulseDot 1.8s infinite;
 }
-@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.25} }
+.badge-text {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #3FD99A;
+}
 
-/* ── HEADLINE ────────────────────────────────────────────── */
+/* ─── 2. HEADLINE ────────────────────────────────────────────── */
 .headline {
+  text-align: center;
+  width: 100%;
+  margin-bottom: 16px;
+  opacity: 0;
+  animation: fadeUp .6s ease .1s forwards;
+}
+.headline .line1 {
+  display: block;
   font-family: 'Bebas Neue', sans-serif;
-  font-size: clamp(56px, 18vw, 96px);
-  line-height: .85; letter-spacing: .02em;
-  margin-bottom: 24px;
-  opacity: 0; animation: rise .65s cubic-bezier(.2,.7,.2,1) .2s forwards;
+  font-size: clamp(68px, 19vw, 84px);
+  line-height: .88;
+  color: #F3F5F2;
+  letter-spacing: .01em;
 }
-.h-white { display: block; color: var(--ink); }
-.h-green {
-  display: block; color: var(--lite);
-  text-shadow: 0 0 40px rgba(63,217,154,.4);
+.headline .line2 {
+  display: block;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(68px, 19vw, 84px);
+  line-height: .92;
+  color: #3FD99A;
+  margin-top: 4px;
+  letter-spacing: .01em;
+  text-shadow: 0 0 36px rgba(63,217,154,.35);
 }
 
-/* ── SUBTÍTULO ───────────────────────────────────────────── */
+/* ─── 3. SUBTÍTULO ───────────────────────────────────────────── */
 .sub {
-  font-size: 16px; color: var(--ink);
-  line-height: 1.55; max-width: 340px;
+  font-size: 15px;
+  color: #c8d4cc;
+  max-width: 300px;
+  line-height: 1.55;
+  text-align: center;
+  margin: 0 0 16px;
+  opacity: 0;
+  animation: fadeUp .6s ease .2s forwards;
+}
+.sub strong { color: #3FD99A; font-weight: 700; }
+
+/* ─── 4. BADGES PROVA SOCIAL ─────────────────────────────────── */
+.proof-badges {
+  display: flex;
+  gap: 10px;
   margin-bottom: 20px;
-  opacity: 0; animation: rise .6s cubic-bezier(.2,.7,.2,1) .3s forwards;
+  opacity: 0;
+  animation: fadeUp .6s ease .3s forwards;
 }
-.sub p + p { margin-top: 8px; }
-.sub .em   { color: var(--lite); font-weight: 700; }
-
-/* ── PROVA SOCIAL ────────────────────────────────────────── */
-.proof {
-  font-size: 13px; color: var(--lite);
-  font-style: italic; text-align: center;
-  max-width: 310px;
-  margin-bottom: 28px;
-  opacity: 0; animation: fade .6s ease .4s forwards;
-}
-
-/* ── FORM CARD ───────────────────────────────────────────── */
-.form-card {
-  width: 100%; max-width: 400px;
-  background: rgba(0,168,107,.07);
-  border: 1px solid rgba(63,217,154,.18);
+.proof-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid rgba(63,217,154,.3);
   border-radius: 20px;
-  padding: 24px 20px;
-  opacity: 0; animation: rise .55s cubic-bezier(.2,.7,.2,1) .5s forwards;
+  padding: 5px 14px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #F3F5F2;
 }
 
-.form-lbl {
-  font-size: 12px; color: var(--soft);
-  text-align: center; margin-bottom: 16px;
-  line-height: 1.4;
+/* ─── 5. BOTÃO PRINCIPAL ─────────────────────────────────────── */
+.cta-main {
+  display: block;
+  width: 100%;
+  max-width: 340px;
+  padding: 16px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px;
+  letter-spacing: .07em;
+  color: #060c09;
+  background: linear-gradient(135deg, #00A86B, #3FD99A);
+  border-radius: 16px;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: 0 8px 32px rgba(0,168,107,.4);
+  margin-bottom: 24px;
+  transition: transform .2s, box-shadow .2s;
+  opacity: 0;
+  animation: fadeUp .6s ease .3s forwards;
 }
+.cta-main:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 44px rgba(0,168,107,.55);
+}
+.cta-main:active { transform: scale(.98); }
+
+/* ─── 6. FRASE PROVA SOCIAL ──────────────────────────────────── */
+.proof-quote {
+  font-size: 13px;
+  font-style: italic;
+  color: #3FD99A;
+  line-height: 1.55;
+  border-left: 2px solid #3FD99A;
+  padding-left: 12px;
+  max-width: 320px;
+  text-align: left;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeUp .6s ease .3s forwards;
+}
+
+/* ─── 7. TRÊS CARDS ──────────────────────────────────────────── */
+.benefit-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  max-width: 340px;
+  width: 100%;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeUp .6s ease .3s forwards;
+}
+.benefit-card {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(63,217,154,.12);
+  border-radius: 14px;
+  padding: 14px 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+}
+.benefit-card svg { flex-shrink: 0; }
+.benefit-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: #F3F5F2;
+  line-height: 1.3;
+}
+.benefit-sub {
+  font-size: 10px;
+  color: #8A938C;
+  line-height: 1.3;
+}
+
+/* ─── 8. FORMULÁRIO ──────────────────────────────────────────── */
+.form-card {
+  background: rgba(0,168,107,.07);
+  border: 1px solid rgba(63,217,154,.16);
+  border-radius: 20px;
+  padding: 18px 16px;
+  max-width: 360px;
+  width: 100%;
+  margin-bottom: 16px;
+  opacity: 0;
+  animation: fadeUp .6s ease .3s forwards;
+}
+.form-intro {
+  font-size: 15px;
+  color: #F3F5F2;
+  text-align: center;
+  line-height: 1.5;
+  margin-bottom: 14px;
+}
+.form-intro strong { color: #3FD99A; font-weight: 700; }
 
 input[type="text"],
 input[type="email"] {
   width: 100%;
-  padding: 15px 18px;
-  background: rgba(255,255,255,.04);
-  border: 1px solid rgba(255,255,255,.08);
+  background: rgba(255,255,255,.05);
+  border: 1px solid rgba(255,255,255,.09);
   border-radius: 12px;
+  padding: 13px 16px;
   font-family: 'DM Sans', sans-serif;
-  font-size: 15px;
-  color: var(--ink);
+  font-size: 14px;
+  color: #F3F5F2;
   outline: none;
   transition: border-color .2s, background .2s;
-  -webkit-appearance: none; appearance: none;
-  display: block; margin-bottom: 10px;
+  display: block;
+  -webkit-appearance: none;
+  appearance: none;
 }
-input[type="email"] { margin-bottom: 0; }
-input::placeholder { color: rgba(139,163,148,.55); }
-input:focus {
-  border-color: var(--lite);
-  background: rgba(63,217,154,.05);
-}
-input.err {
-  border-color: #ff4444;
-  animation: shake .35s ease;
-}
+input[type="text"]  { margin-bottom: 8px;  }
+input[type="email"] { margin-bottom: 12px; }
+input::placeholder  { color: #8A938C; }
+input:focus         { border-color: #3FD99A; background: rgba(63,217,154,.05); }
+input.invalid       { border-color: #ff4444; }
 
-/* ── BOTÃO ───────────────────────────────────────────────── */
-.btn {
+.btn-submit {
   width: 100%;
-  padding: 18px;
-  margin-top: 16px;
+  padding: 15px;
   font-family: 'Bebas Neue', sans-serif;
-  font-size: 24px; letter-spacing: .06em;
-  color: #070A08;
-  background: linear-gradient(135deg, #00A86B 0%, #3FD99A 100%);
-  border: none; border-radius: 14px; cursor: pointer;
-  box-shadow: 0 8px 32px rgba(0,168,107,.35);
-  transition: transform .2s, box-shadow .2s, opacity .15s;
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-  -webkit-tap-highlight-color: transparent;
+  font-size: 22px;
+  letter-spacing: .07em;
+  color: #060c09;
+  background: linear-gradient(135deg, #00A86B, #3FD99A);
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  box-shadow: 0 6px 28px rgba(0,168,107,.3);
+  transition: opacity .15s, transform .15s;
 }
-.btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 14px 44px rgba(0,168,107,.50);
-}
-.btn:active  { transform: scale(.98); }
-.btn:disabled { opacity: .65; cursor: not-allowed; transform: none; }
+.btn-submit:hover   { opacity: .92; transform: translateY(-1px); }
+.btn-submit:active  { transform: scale(.98); }
+.btn-submit.loading { opacity: .8; cursor: not-allowed; }
 
-/* spinner dentro do botão */
-.spinner {
-  width: 18px; height: 18px;
-  border: 2px solid rgba(7,10,8,.3);
-  border-top-color: #070A08;
-  border-radius: 50%;
-  animation: spin .7s linear infinite;
-  display: none;
-}
-.btn.loading .btn-txt { display: none; }
-.btn.loading .spinner  { display: block; }
-
-/* ── REASSURE ────────────────────────────────────────────── */
 .reassure {
-  font-size: 12px; color: var(--soft);
-  text-align: center; margin-top: 14px; line-height: 1.5;
+  font-size: 12px;
+  color: #8A938C;
+  text-align: center;
+  margin-top: 10px;
+  line-height: 1.5;
 }
-.reassure b { color: var(--ink); font-weight: 700; }
+.reassure strong { color: #F3F5F2; }
 
-/* ── URGÊNCIA ────────────────────────────────────────────── */
+/* ─── 9. URGÊNCIA ────────────────────────────────────────────── */
 .urgencia {
-  font-size: 12px; color: var(--lite);
-  text-align: center; margin: 20px 0 8px;
-  opacity: 0; animation: fade .5s ease .6s forwards;
+  font-size: 12px;
+  color: #3FD99A;
+  text-align: center;
+  margin: 16px 0 6px;
+  opacity: 0;
+  animation: fadeUp .6s ease .3s forwards;
 }
 
-/* ── DISCLAIMER ──────────────────────────────────────────── */
+/* ─── 10. DISCLAIMER ─────────────────────────────────────────── */
 .disclaimer {
-  font-size: 11px; color: #2a3a2e;
-  text-align: center; line-height: 1.6; max-width: 340px;
+  font-size: 11px;
+  color: #2a3a2e;
+  text-align: center;
+  line-height: 1.6;
+  max-width: 320px;
 }
 
-/* ── REDUCED MOTION ──────────────────────────────────────── */
+/* ─── REDUCED MOTION ─────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition: none !important; }
-  .logo-wrap, .badge, .headline, .sub, .proof, .form-card, .urgencia { opacity: 1 !important; }
-  body::before { animation: none !important; }
-}
-
-/* ── AJUSTE TELAS MUITO PEQUENAS (<360px tall) ───────────── */
-@media (max-height: 680px) {
-  .logo-svg          { width: 56px; height: 56px; }
-  .logo-wrap         { margin-bottom: 14px; }
-  .badge             { margin-bottom: 14px; padding: 5px 13px; }
-  .headline          { font-size: 14vw; margin-bottom: 14px; }
-  .sub               { font-size: 14px; margin-bottom: 14px; }
-  .proof             { font-size: 12px; margin-bottom: 18px; }
-  .form-card         { padding: 18px 16px; }
-  .urgencia          { margin: 14px 0 6px; }
+  .badge, .headline, .sub, .proof-badges, .cta-main,
+  .proof-quote, .benefit-grid, .form-card, .urgencia { opacity: 1 !important; }
 }
 </style>
 </head>
 <body>
-<main class="wrap">
+<div class="page">
 
-  <!-- ── LOGO ── -->
-  <div class="logo-wrap">
-    <svg class="logo-svg" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Greenz">
-      <!-- aro exterior -->
-      <circle cx="36" cy="36" r="33" stroke="rgba(63,217,154,.35)" stroke-width="1.2"/>
-      <!-- fundo circular -->
-      <circle cx="36" cy="36" r="30" fill="rgba(0,168,107,.12)"/>
-      <!-- G path geométrico limpo -->
-      <path d="M46 27.5C43.3 23.8 39.9 22 36 22C29.4 22 24 27.4 24 34C24 40.6 29.4 46 36 46C40.8 46 44.9 43.1 46.7 38.9H36V34H50V36C50 43.7 43.7 50 36 50C28.3 50 22 43.7 22 36C22 28.3 28.3 22 36 22C40.6 22 44.7 24.1 47.4 27.5H46Z"
-            fill="var(--lite)" filter="url(#glow)"/>
-      <defs>
-        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
-          <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur"/>
-          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-      </defs>
-    </svg>
-  </div>
-
-  <!-- ── BADGE ── -->
+  <!-- 1. BADGE -->
   <div class="badge">
     <span class="badge-dot"></span>
-    Acesso aberto agora
+    <span class="badge-text">Acesso aberto agora</span>
   </div>
 
-  <!-- ── HEADLINE ── -->
-  <h1 class="headline">
-    <span class="h-white">GRUPO GRATUITO</span>
-    <span class="h-green">LIBERADO</span>
-  </h1>
-
-  <!-- ── SUBTÍTULO ── -->
-  <div class="sub">
-    <p>O protocolo matemático que acertou 42 greens nos playoffs<br>agora vai pegar as Finais da NBA.</p>
-    <p>Entre no nosso grupo para receber as <span class="em">MELHORES</span> entradas para o Jogo&nbsp;1 de graça.</p>
+  <!-- 2. HEADLINE -->
+  <div class="headline">
+    <span class="line1">GRUPO GRATUITO</span>
+    <span class="line2">LIBERADO</span>
   </div>
 
-  <!-- ── PROVA SOCIAL ── -->
-  <p class="proof">
-    Não é palpite. É análise matemática<br>aplicada às odds reais da NBA.
+  <!-- 3. SUBTÍTULO -->
+  <p class="sub">
+    O protocolo matemático que acertou
+    <strong>42&nbsp;greens</strong> nos playoffs,
+    agora vai pegar as Finais da NBA.
   </p>
 
-  <!-- ── FORMULÁRIO ── -->
+  <!-- 4. BADGES DE PROVA SOCIAL -->
+  <div class="proof-badges">
+    <div class="proof-badge">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <circle cx="6" cy="6" r="5" stroke="#3FD99A" stroke-width="1.2"/>
+        <path d="M4 6l1.5 1.5L8 4.5" stroke="#3FD99A" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      42 greens
+    </div>
+    <div class="proof-badge">
+      <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+        <rect x="1" y="1" width="10" height="10" rx="2" stroke="#3FD99A" stroke-width="1.2"/>
+        <path d="M3.5 6h5M6 3.5v5" stroke="#3FD99A" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+      Auditável
+    </div>
+  </div>
+
+  <!-- 5. BOTÃO PRINCIPAL -->
+  <a class="cta-main" href="https://t.me/+_oTdejexhvAzOTYx">
+    ENTRAR NO GRUPO AGORA →
+  </a>
+
+  <!-- 6. FRASE PROVA SOCIAL -->
+  <p class="proof-quote">
+    Não é palpite. É análise matemática aplicada às odds reais da NBA.
+  </p>
+
+  <!-- 7. TRÊS CARDS -->
+  <div class="benefit-grid">
+
+    <div class="benefit-card">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <circle cx="11" cy="11" r="9" stroke="#3FD99A" stroke-width="1.3"/>
+        <path d="M7 11l3 3 5-5" stroke="#3FD99A" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="benefit-title">Player Props</span>
+      <span class="benefit-sub">NBA</span>
+    </div>
+
+    <div class="benefit-card">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <path d="M11 3v4M11 15v4M3 11h4M15 11h4" stroke="#3FD99A" stroke-width="1.3" stroke-linecap="round"/>
+        <circle cx="11" cy="11" r="3" stroke="#3FD99A" stroke-width="1.3"/>
+      </svg>
+      <span class="benefit-title">Análise</span>
+      <span class="benefit-sub">Matemática</span>
+    </div>
+
+    <div class="benefit-card">
+      <svg width="22" height="22" viewBox="0 0 22 22" fill="none" aria-hidden="true">
+        <rect x="3" y="5" width="16" height="12" rx="2" stroke="#3FD99A" stroke-width="1.3"/>
+        <path d="M7 9h8M7 13h5" stroke="#3FD99A" stroke-width="1.3" stroke-linecap="round"/>
+      </svg>
+      <span class="benefit-title">Entradas</span>
+      <span class="benefit-sub">Prontas</span>
+    </div>
+
+  </div>
+
+  <!-- 8. FORMULÁRIO -->
   <div class="form-card">
-    <p class="form-lbl">Preencha os dados abaixo e receba seu acesso agora</p>
+    <p class="form-intro">
+      Para receber as <strong>MELHORES</strong> entradas para o Jogo&nbsp;1
+      das Finais da NBA <strong>DE&nbsp;GRAÇA</strong>,
+      preencha os campos abaixo
+    </p>
 
-    <input id="f-nome"  type="text"  placeholder="Seu nome"          autocomplete="given-name" required>
-    <input id="f-email" type="email" placeholder="Seu melhor e-mail"  autocomplete="email"      required>
+    <input type="text"  id="nome"  placeholder="Seu nome"          autocomplete="given-name">
+    <input type="email" id="email" placeholder="Seu melhor e-mail"  autocomplete="email">
 
-    <button class="btn" id="btn-submit" type="button">
-      <span class="btn-txt">ENTRAR NO GRUPO AGORA →</span>
-      <span class="spinner" aria-hidden="true"></span>
+    <button class="btn-submit" id="btn" type="button">
+      ENTRAR NO GRUPO AGORA →
     </button>
 
-    <p class="reassure"><b>Totalmente gratuito.</b> Sem cartão. Entra na hora.</p>
+    <p class="reassure">
+      <strong>Totalmente gratuito.</strong> Sem cartão. Entra na hora.
+    </p>
   </div>
 
-  <!-- ── URGÊNCIA ── -->
+  <!-- 9. URGÊNCIA -->
   <p class="urgencia">⏳ Passe das Finais por R$67 · encerra no Jogo 1</p>
 
-  <!-- ── DISCLAIMER ── -->
+  <!-- 10. DISCLAIMER -->
   <p class="disclaimer">
-    Greenz não é casa de apostas. Conteúdo informativo de análise estatística.<br>
-    Aposte com responsabilidade — +18.
+    Greenz não é casa de apostas. Conteúdo informativo de
+    análise estatística. +18
   </p>
 
-</main>
+</div>
 
 <script>
 (function () {
-  var btn   = document.getElementById('btn-submit');
-  var inNome  = document.getElementById('f-nome');
-  var inEmail = document.getElementById('f-email');
-  var FORMS_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSf51A6Mm8h7JvQeSoEuMegDsBQmkxeKFfKe3mw7jcaFPxx2Eg/formResponse';
-  var REDIRECT  = 'https://t.me/+_oTdejexhvAzOTYx';
+  var btn   = document.getElementById('btn');
+  var fNome = document.getElementById('nome');
+  var fMail = document.getElementById('email');
+  var FORM  = 'https://docs.google.com/forms/d/e/1FAIpQLSf51A6Mm8h7JvQeSoEuMegDsBQmkxeKFfKe3mw7jcaFPxx2Eg/formResponse';
+  var TG    = 'https://t.me/+_oTdejexhvAzOTYx';
 
-  function markErr(el) {
-    el.classList.remove('err');
-    void el.offsetWidth; // trigger reflow for animation restart
-    el.classList.add('err');
-    el.focus();
-  }
-
-  [inNome, inEmail].forEach(function (el) {
-    el.addEventListener('input', function () { el.classList.remove('err'); });
-  });
+  function clearErr(el) { el.classList.remove('invalid'); }
+  fNome.addEventListener('input', function () { clearErr(fNome); });
+  fMail.addEventListener('input', function () { clearErr(fMail); });
 
   btn.addEventListener('click', function () {
-    var nome  = inNome.value.trim();
-    var email = inEmail.value.trim();
-    var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+    var nome  = fNome.value.trim();
+    var email = fMail.value.trim();
+    var ok    = true;
 
-    if (!nome)    { markErr(inNome);  return; }
-    if (!emailOk) { markErr(inEmail); return; }
+    if (!nome)                                        { fNome.classList.add('invalid'); fNome.focus(); ok = false; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { fMail.classList.add('invalid'); if (ok) fMail.focus(); ok = false; }
+    if (!ok) return;
 
-    // estado de carregamento
-    btn.disabled = true;
+    btn.textContent = 'Entrando...';
     btn.classList.add('loading');
+    btn.disabled = true;
 
-    // POST fire-and-forget (no-cors → sempre rejeita, é esperado)
     var body = new URLSearchParams();
     body.append('entry.92185419',   nome);
     body.append('entry.1395825269', email);
 
-    fetch(FORMS_URL, {
+    fetch(FORM, {
       method:  'POST',
       mode:    'no-cors',
       headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
       body:    body.toString()
-    }).catch(function () { /* silencia — no-cors sempre rejeita */ });
+    }).catch(function () {});
 
-    // redireciona após 800ms
-    setTimeout(function () {
-      window.location.href = REDIRECT;
-    }, 800);
+    setTimeout(function () { window.location.href = TG; }, 800);
   });
 })();
 </script>
