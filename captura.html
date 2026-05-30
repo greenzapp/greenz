@@ -4,290 +4,380 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <title>Greenz · Grupo Gratuito — Finais NBA</title>
-<meta name="description" content="Entre no grupo gratuito do Greenz e receba as melhores entradas para as Finais da NBA.">
+<meta name="description" content="O protocolo matemático que acertou 42 greens nos playoffs. Entre no grupo gratuito e receba as melhores entradas para as Finais da NBA.">
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&display=swap" rel="stylesheet">
 
 <style>
-/* ── tokens ─────────────────────────────────────────────────────── */
-:root{
-  --bg:#070A08;
-  --ink:#F3F5F2;
-  --soft:#8A938C;
-  --green:#00A86B;
-  --lite:#3FD99A;
-  --card-bg:rgba(0,168,107,.06);
-  --card-bd:rgba(63,217,154,.15);
-  --input-bg:#0d1a12;
-  --input-bd:#1e3328;
+/* ── TOKENS ──────────────────────────────────────────────── */
+:root {
+  --bg:       #070A08;
+  --ink:      #F3F5F2;
+  --soft:     #8A938C;
+  --green:    #00A86B;
+  --lite:     #3FD99A;
 }
 
-/* ── reset ───────────────────────────────────────────────────────── */
-*{margin:0;padding:0;box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
-body{
-  font-family:'DM Sans',sans-serif;
-  background:var(--bg);color:var(--ink);
-  line-height:1.5;-webkit-font-smoothing:antialiased;
-  overflow-x:hidden;position:relative;min-height:100dvh;
+/* ── BASE ────────────────────────────────────────────────── */
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { -webkit-text-size-adjust:100%; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+  position: relative;
 }
 
-/* ── fundo animado (idêntico ao index) ───────────────────────────── */
-body::before{
-  content:"";position:fixed;left:50%;top:0;transform:translateX(-50%);
-  width:160%;height:100vh;z-index:0;pointer-events:none;
+/* ── GRADIENTE RESPIRANDO (idêntico ao index) ────────────── */
+body::before {
+  content: "";
+  position: fixed; inset: 0; z-index: 0; pointer-events: none;
   background:
-    radial-gradient(80% 42% at 50% -4%,rgba(120,245,190,.34) 0%,rgba(120,245,190,0) 60%),
-    radial-gradient(95% 60% at 50%  2%,rgba(63,217,154,.30) 0%,rgba(0,168,107,.10) 38%,rgba(7,10,8,0) 66%),
-    radial-gradient(70% 50% at 28% 14%,rgba(0,168,107,.16) 0%,rgba(7,10,8,0) 60%),
-    radial-gradient(70% 50% at 74% 10%,rgba(63,217,154,.12) 0%,rgba(7,10,8,0) 58%);
-  animation:breathe 9s ease-in-out infinite;
+    radial-gradient(80% 42% at 50% -4%,  rgba(120,245,190,.36) 0%, rgba(120,245,190,0) 62%),
+    radial-gradient(95% 60% at 50%  2%,  rgba(63,217,154,.32) 0%, rgba(0,168,107,.12) 38%, rgba(7,10,8,0) 66%),
+    radial-gradient(70% 50% at 24% 12%,  rgba(0,168,107,.18) 0%, rgba(7,10,8,0) 58%),
+    radial-gradient(70% 50% at 76% 10%,  rgba(63,217,154,.14) 0%, rgba(7,10,8,0) 56%);
+  animation: breathe 9s ease-in-out infinite;
 }
-@keyframes breathe{
-  0%,100%{opacity:.9;transform:translateX(-50%) scale(1)}
-  50%     {opacity:1;transform:translateX(-50%) scale(1.06)}
+@keyframes breathe {
+  0%,100% { opacity:.88; transform:scale(1);   }
+  50%      { opacity:1;   transform:scale(1.05); }
 }
+
 /* grão de textura */
-body::after{
-  content:"";position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.5;
-  background-image:radial-gradient(rgba(255,255,255,.025) .5px,transparent .5px);
-  background-size:3px 3px;
+body::after {
+  content: ""; position: fixed; inset: 0; z-index: 0; pointer-events: none;
+  opacity: .45;
+  background-image: radial-gradient(rgba(255,255,255,.022) .5px, transparent .5px);
+  background-size: 3px 3px;
 }
 
-/* ── wrapper ─────────────────────────────────────────────────────── */
-.wrap{
-  position:relative;z-index:1;
-  max-width:420px;margin:0 auto;
-  padding:max(28px,calc(env(safe-area-inset-top) + 20px)) 20px
-          max(20px,calc(env(safe-area-inset-bottom) + 16px));
-  display:flex;flex-direction:column;align-items:center;text-align:center;
-  gap:0;
+/* ── KEYFRAMES ───────────────────────────────────────────── */
+@keyframes rise  { from { opacity:0; transform:translateY(18px) } to { opacity:1; transform:none } }
+@keyframes fade  { from { opacity:0 }                              to { opacity:1 }                 }
+@keyframes shake { 0%,100%{transform:translateX(0)} 20%,60%{transform:translateX(-4px)} 40%,80%{transform:translateX(4px)} }
+@keyframes spin  { to { transform:rotate(360deg) } }
+
+/* ── WRAPPER ─────────────────────────────────────────────── */
+.wrap {
+  position: relative; z-index: 1;
+  max-width: 420px; margin: 0 auto;
+  padding:
+    max(28px, calc(env(safe-area-inset-top)    + 20px))
+    20px
+    max(20px, calc(env(safe-area-inset-bottom) + 12px));
+  display: flex; flex-direction: column; align-items: center; text-align: center;
 }
 
-/* ── animações ───────────────────────────────────────────────────── */
-@keyframes rise{
-  from{opacity:0;transform:translateY(14px)}
-  to  {opacity:1;transform:translateY(0)}
+/* ── LOGO ────────────────────────────────────────────────── */
+.logo-wrap {
+  margin-bottom: 20px;
+  opacity: 0; animation: rise .6s ease 0s forwards;
+  position: relative; display: inline-block;
 }
-@keyframes fade{from{opacity:0}to{opacity:1}}
-
-/* ── 1. BADGE ────────────────────────────────────────────────────── */
-.badge{
-  display:inline-flex;align-items:center;gap:7px;
-  font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;
-  color:var(--lite);
-  background:rgba(63,217,154,.07);
-  border:1px solid rgba(63,217,154,.22);
-  padding:7px 14px;border-radius:100px;
-  margin-bottom:20px;
-  opacity:0;animation:fade .5s ease .05s forwards;
+.logo-wrap::after {
+  content: "";
+  position: absolute; inset: -12px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(63,217,154,.28) 0%, rgba(0,168,107,.08) 55%, transparent 75%);
+  pointer-events: none;
 }
-.badge-dot{
-  width:6px;height:6px;border-radius:50%;
-  background:var(--lite);box-shadow:0 0 6px var(--lite);
-  flex-shrink:0;animation:pulse 2s infinite;
-}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
-
-/* ── 2. HEADLINE ─────────────────────────────────────────────────── */
-h1{
-  font-family:'Bebas Neue',sans-serif;font-weight:400;
-  font-size:clamp(52px,16vw,96px);line-height:.88;letter-spacing:.01em;
-  margin-bottom:16px;
-  opacity:0;animation:rise .7s cubic-bezier(.2,.7,.2,1) .1s forwards;
-}
-.h-white{display:block;color:var(--ink)}
-.h-green{display:block;color:var(--lite);text-shadow:0 0 32px rgba(63,217,154,.3)}
-
-/* ── 3. SUBTÍTULO ────────────────────────────────────────────────── */
-.sub{
-  font-size:15px;color:var(--soft);line-height:1.6;
-  max-width:380px;margin-bottom:18px;
-  opacity:0;animation:rise .7s cubic-bezier(.2,.7,.2,1) .2s forwards;
-}
-.sub p+p{margin-top:8px}
-.sub strong{font-weight:700;color:var(--lite)}
-
-/* ── 4. PROVA SOCIAL ─────────────────────────────────────────────── */
-.proof-line{
-  width:100%;border-top:1px solid #1a2a1f;border-bottom:1px solid #1a2a1f;
-  padding:12px 0;margin-bottom:18px;
-  font-size:13px;color:var(--lite);letter-spacing:.02em;
-  opacity:0;animation:fade .6s ease .3s forwards;
+.logo-svg {
+  width: 72px; height: 72px;
+  filter: drop-shadow(0 0 14px rgba(63,217,154,.5));
 }
 
-/* ── 5. FORMULÁRIO ───────────────────────────────────────────────── */
-.form-card{
-  width:100%;
-  background:var(--card-bg);
-  border:1px solid var(--card-bd);
-  border-radius:16px;
-  padding:20px 20px 18px;
-  display:flex;flex-direction:column;align-items:stretch;
-  margin-bottom:14px;
-  opacity:0;animation:fade .5s ease .35s forwards;
+/* ── BADGE ───────────────────────────────────────────────── */
+.badge {
+  display: inline-flex; align-items: center; gap: 7px;
+  font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--lite);
+  background: rgba(63,217,154,.08);
+  border: 1px solid rgba(63,217,154,.30);
+  padding: 6px 16px; border-radius: 20px;
+  margin-bottom: 20px;
+  opacity: 0; animation: rise .55s ease .1s forwards;
 }
-.form-label{
-  font-size:13px;color:var(--soft);margin-bottom:14px;line-height:1.4;
+.badge-dot {
+  width: 6px; height: 6px; border-radius: 50%;
+  background: var(--lite); box-shadow: 0 0 7px var(--lite);
+  flex-shrink: 0; animation: pulse 1.8s infinite;
 }
-.fields{display:flex;flex-direction:column;gap:12px}
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+/* ── HEADLINE ────────────────────────────────────────────── */
+.headline {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(56px, 18vw, 96px);
+  line-height: .85; letter-spacing: .02em;
+  margin-bottom: 24px;
+  opacity: 0; animation: rise .65s cubic-bezier(.2,.7,.2,1) .2s forwards;
+}
+.h-white { display: block; color: var(--ink); }
+.h-green {
+  display: block; color: var(--lite);
+  text-shadow: 0 0 40px rgba(63,217,154,.4);
+}
+
+/* ── SUBTÍTULO ───────────────────────────────────────────── */
+.sub {
+  font-size: 16px; color: var(--ink);
+  line-height: 1.55; max-width: 340px;
+  margin-bottom: 20px;
+  opacity: 0; animation: rise .6s cubic-bezier(.2,.7,.2,1) .3s forwards;
+}
+.sub p + p { margin-top: 8px; }
+.sub .em   { color: var(--lite); font-weight: 700; }
+
+/* ── PROVA SOCIAL ────────────────────────────────────────── */
+.proof {
+  font-size: 13px; color: var(--lite);
+  font-style: italic; text-align: center;
+  max-width: 310px;
+  margin-bottom: 28px;
+  opacity: 0; animation: fade .6s ease .4s forwards;
+}
+
+/* ── FORM CARD ───────────────────────────────────────────── */
+.form-card {
+  width: 100%; max-width: 400px;
+  background: rgba(0,168,107,.07);
+  border: 1px solid rgba(63,217,154,.18);
+  border-radius: 20px;
+  padding: 24px 20px;
+  opacity: 0; animation: rise .55s cubic-bezier(.2,.7,.2,1) .5s forwards;
+}
+
+.form-lbl {
+  font-size: 12px; color: var(--soft);
+  text-align: center; margin-bottom: 16px;
+  line-height: 1.4;
+}
 
 input[type="text"],
-input[type="email"]{
-  width:100%;padding:14px 16px;
-  background:var(--input-bg);
-  border:1px solid var(--input-bd);
-  border-radius:10px;
-  color:var(--ink);font-family:'DM Sans',sans-serif;font-size:15px;
-  outline:none;transition:border-color .2s;
-  -webkit-appearance:none;appearance:none;
+input[type="email"] {
+  width: 100%;
+  padding: 15px 18px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  border-radius: 12px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  color: var(--ink);
+  outline: none;
+  transition: border-color .2s, background .2s;
+  -webkit-appearance: none; appearance: none;
+  display: block; margin-bottom: 10px;
 }
-input::placeholder{color:#3a4f42}
-input:focus{border-color:var(--lite)}
-
-.btn{
-  width:100%;padding:16px;margin-top:14px;
-  font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:.08em;
-  color:#fff;background:var(--green);
-  border:none;border-radius:12px;cursor:pointer;
-  transition:background .2s ease,transform .2s ease;
-  -webkit-tap-highlight-color:transparent;
+input[type="email"] { margin-bottom: 0; }
+input::placeholder { color: rgba(139,163,148,.55); }
+input:focus {
+  border-color: var(--lite);
+  background: rgba(63,217,154,.05);
 }
-.btn:hover{background:var(--lite);transform:scale(1.02)}
-.btn:active{transform:scale(.98)}
-.btn:disabled{opacity:.5;cursor:not-allowed;transform:none}
-
-.reassure{
-  margin-top:12px;font-size:12px;color:var(--soft);text-align:center;line-height:1.5;
-}
-.reassure b{color:var(--ink);font-weight:700}
-
-/* estado de sucesso */
-.success-msg{
-  display:none;text-align:center;padding:16px 0 4px;
-}
-.success-msg p{font-size:15px;color:var(--lite);font-weight:600;line-height:1.5}
-.success-msg span{font-size:13px;color:var(--soft);display:block;margin-top:4px}
-
-/* ── 6. URGÊNCIA ─────────────────────────────────────────────────── */
-.urgencia{
-  font-size:12px;color:var(--lite);text-align:center;margin-bottom:10px;
-  opacity:0;animation:fade .5s ease .45s forwards;
+input.err {
+  border-color: #ff4444;
+  animation: shake .35s ease;
 }
 
-/* ── 7. DISCLAIMER ───────────────────────────────────────────────── */
-.disclaimer{
-  font-size:11px;color:#3a443c;text-align:center;line-height:1.6;
-  max-width:340px;
+/* ── BOTÃO ───────────────────────────────────────────────── */
+.btn {
+  width: 100%;
+  padding: 18px;
+  margin-top: 16px;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 24px; letter-spacing: .06em;
+  color: #070A08;
+  background: linear-gradient(135deg, #00A86B 0%, #3FD99A 100%);
+  border: none; border-radius: 14px; cursor: pointer;
+  box-shadow: 0 8px 32px rgba(0,168,107,.35);
+  transition: transform .2s, box-shadow .2s, opacity .15s;
+  display: flex; align-items: center; justify-content: center; gap: 8px;
+  -webkit-tap-highlight-color: transparent;
+}
+.btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 14px 44px rgba(0,168,107,.50);
+}
+.btn:active  { transform: scale(.98); }
+.btn:disabled { opacity: .65; cursor: not-allowed; transform: none; }
+
+/* spinner dentro do botão */
+.spinner {
+  width: 18px; height: 18px;
+  border: 2px solid rgba(7,10,8,.3);
+  border-top-color: #070A08;
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+  display: none;
+}
+.btn.loading .btn-txt { display: none; }
+.btn.loading .spinner  { display: block; }
+
+/* ── REASSURE ────────────────────────────────────────────── */
+.reassure {
+  font-size: 12px; color: var(--soft);
+  text-align: center; margin-top: 14px; line-height: 1.5;
+}
+.reassure b { color: var(--ink); font-weight: 700; }
+
+/* ── URGÊNCIA ────────────────────────────────────────────── */
+.urgencia {
+  font-size: 12px; color: var(--lite);
+  text-align: center; margin: 20px 0 8px;
+  opacity: 0; animation: fade .5s ease .6s forwards;
 }
 
-/* ── reduced-motion fallback ─────────────────────────────────────── */
-@media(prefers-reduced-motion:reduce){
-  *{animation:none!important}
-  body::before{transform:translateX(-50%)!important}
-  .badge,.sub,.proof-line,.form-card,.urgencia{opacity:1!important}
-  h1{opacity:1!important}
+/* ── DISCLAIMER ──────────────────────────────────────────── */
+.disclaimer {
+  font-size: 11px; color: #2a3a2e;
+  text-align: center; line-height: 1.6; max-width: 340px;
+}
+
+/* ── REDUCED MOTION ──────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .logo-wrap, .badge, .headline, .sub, .proof, .form-card, .urgencia { opacity: 1 !important; }
+  body::before { animation: none !important; }
+}
+
+/* ── AJUSTE TELAS MUITO PEQUENAS (<360px tall) ───────────── */
+@media (max-height: 680px) {
+  .logo-svg          { width: 56px; height: 56px; }
+  .logo-wrap         { margin-bottom: 14px; }
+  .badge             { margin-bottom: 14px; padding: 5px 13px; }
+  .headline          { font-size: 14vw; margin-bottom: 14px; }
+  .sub               { font-size: 14px; margin-bottom: 14px; }
+  .proof             { font-size: 12px; margin-bottom: 18px; }
+  .form-card         { padding: 18px 16px; }
+  .urgencia          { margin: 14px 0 6px; }
 }
 </style>
 </head>
 <body>
 <main class="wrap">
 
-  <!-- 1 · BADGE -->
+  <!-- ── LOGO ── -->
+  <div class="logo-wrap">
+    <svg class="logo-svg" viewBox="0 0 72 72" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Greenz">
+      <!-- aro exterior -->
+      <circle cx="36" cy="36" r="33" stroke="rgba(63,217,154,.35)" stroke-width="1.2"/>
+      <!-- fundo circular -->
+      <circle cx="36" cy="36" r="30" fill="rgba(0,168,107,.12)"/>
+      <!-- G path geométrico limpo -->
+      <path d="M46 27.5C43.3 23.8 39.9 22 36 22C29.4 22 24 27.4 24 34C24 40.6 29.4 46 36 46C40.8 46 44.9 43.1 46.7 38.9H36V34H50V36C50 43.7 43.7 50 36 50C28.3 50 22 43.7 22 36C22 28.3 28.3 22 36 22C40.6 22 44.7 24.1 47.4 27.5H46Z"
+            fill="var(--lite)" filter="url(#glow)"/>
+      <defs>
+        <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+          <feGaussianBlur in="SourceGraphic" stdDeviation="2.5" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+    </svg>
+  </div>
+
+  <!-- ── BADGE ── -->
   <div class="badge">
     <span class="badge-dot"></span>
     Acesso aberto agora
   </div>
 
-  <!-- 2 · HEADLINE -->
-  <h1>
+  <!-- ── HEADLINE ── -->
+  <h1 class="headline">
     <span class="h-white">GRUPO GRATUITO</span>
     <span class="h-green">LIBERADO</span>
   </h1>
 
-  <!-- 3 · SUBTÍTULO -->
+  <!-- ── SUBTÍTULO ── -->
   <div class="sub">
     <p>O protocolo matemático que acertou 42 greens nos playoffs<br>agora vai pegar as Finais da NBA.</p>
-    <p>Entre no nosso grupo para receber as <strong>MELHORES</strong> entradas<br>para o Jogo 1 de graça.</p>
+    <p>Entre no nosso grupo para receber as <span class="em">MELHORES</span> entradas para o Jogo&nbsp;1 de graça.</p>
   </div>
 
-  <!-- 4 · PROVA SOCIAL -->
-  <div class="proof-line">
-    Não é palpite. É análise matemática aplicada às odds reais da NBA.
-  </div>
+  <!-- ── PROVA SOCIAL ── -->
+  <p class="proof">
+    Não é palpite. É análise matemática<br>aplicada às odds reais da NBA.
+  </p>
 
-  <!-- 5 · FORMULÁRIO -->
+  <!-- ── FORMULÁRIO ── -->
   <div class="form-card">
-    <p class="form-label">Preencha os dados abaixo e receba seu acesso agora</p>
-    <div class="fields">
-      <input id="f-nome"  type="text"  placeholder="Seu nome"         autocomplete="given-name"  required>
-      <input id="f-email" type="email" placeholder="Seu melhor e-mail" autocomplete="email"        required>
-    </div>
-    <button class="btn" id="btn-submit" type="button">ENTRAR NO GRUPO AGORA →</button>
-    <div class="success-msg" id="success">
-      <p>✅ Dados recebidos!</p>
-      <span>Redirecionando para o grupo…</span>
-    </div>
+    <p class="form-lbl">Preencha os dados abaixo e receba seu acesso agora</p>
+
+    <input id="f-nome"  type="text"  placeholder="Seu nome"          autocomplete="given-name" required>
+    <input id="f-email" type="email" placeholder="Seu melhor e-mail"  autocomplete="email"      required>
+
+    <button class="btn" id="btn-submit" type="button">
+      <span class="btn-txt">ENTRAR NO GRUPO AGORA →</span>
+      <span class="spinner" aria-hidden="true"></span>
+    </button>
+
     <p class="reassure"><b>Totalmente gratuito.</b> Sem cartão. Entra na hora.</p>
   </div>
 
-  <!-- 6 · URGÊNCIA -->
+  <!-- ── URGÊNCIA ── -->
   <p class="urgencia">⏳ Passe das Finais por R$67 · encerra no Jogo 1</p>
 
-  <!-- 7 · DISCLAIMER -->
-  <p class="disclaimer">Greenz não é casa de apostas. Conteúdo informativo de<br>análise estatística. Aposte com responsabilidade — +18.</p>
+  <!-- ── DISCLAIMER ── -->
+  <p class="disclaimer">
+    Greenz não é casa de apostas. Conteúdo informativo de análise estatística.<br>
+    Aposte com responsabilidade — +18.
+  </p>
 
 </main>
 
 <script>
-(function(){
+(function () {
   var btn   = document.getElementById('btn-submit');
-  var nome  = document.getElementById('f-nome');
-  var email = document.getElementById('f-email');
-  var succ  = document.getElementById('success');
+  var inNome  = document.getElementById('f-nome');
+  var inEmail = document.getElementById('f-email');
+  var FORMS_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSf51A6Mm8h7JvQeSoEuMegDsBQmkxeKFfKe3mw7jcaFPxx2Eg/formResponse';
+  var REDIRECT  = 'https://t.me/+_oTdejexhvAzOTYx';
 
-  btn.addEventListener('click', function(){
-    var n = nome.value.trim();
-    var e = email.value.trim();
+  function markErr(el) {
+    el.classList.remove('err');
+    void el.offsetWidth; // trigger reflow for animation restart
+    el.classList.add('err');
+    el.focus();
+  }
 
-    // validação básica
-    if(!n){nome.focus();nome.style.borderColor='#e05555';return;}
-    nome.style.borderColor='';
-    if(!e || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e)){
-      email.focus();email.style.borderColor='#e05555';return;
-    }
-    email.style.borderColor='';
-
-    btn.disabled = true;
-    btn.textContent = 'ENVIANDO…';
-
-    // POST silencioso para Google Forms (fire-and-forget)
-    var body = new URLSearchParams();
-    body.append('entry.92185419',  n);  // Qual seu nome?
-    body.append('entry.1395825269', e); // Qual o seu melhor e-mail
-
-    fetch(
-      'https://docs.google.com/forms/d/e/1FAIpQLSf51A6Mm8h7JvQeSoEuMegDsBQmkxeKFfKe3mw7jcaFPxx2Eg/formResponse',
-      {method:'POST', mode:'no-cors',
-       headers:{'Content-Type':'application/x-www-form-urlencoded'},
-       body:body.toString()}
-    ).catch(function(){});  // no-cors → sempre rejeita no fetch, silencia
-
-    // UI de confirmação
-    btn.style.display = 'none';
-    succ.style.display = 'block';
-
-    // redireciona para o grupo após 800ms
-    setTimeout(function(){
-      window.location.href = 'https://t.me/+_oTdejexhvAzOTYx';
-    }, 800);
+  [inNome, inEmail].forEach(function (el) {
+    el.addEventListener('input', function () { el.classList.remove('err'); });
   });
 
-  // limpa borda de erro ao digitar
-  [nome, email].forEach(function(el){
-    el.addEventListener('input', function(){ el.style.borderColor=''; });
+  btn.addEventListener('click', function () {
+    var nome  = inNome.value.trim();
+    var email = inEmail.value.trim();
+    var emailOk = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+
+    if (!nome)    { markErr(inNome);  return; }
+    if (!emailOk) { markErr(inEmail); return; }
+
+    // estado de carregamento
+    btn.disabled = true;
+    btn.classList.add('loading');
+
+    // POST fire-and-forget (no-cors → sempre rejeita, é esperado)
+    var body = new URLSearchParams();
+    body.append('entry.92185419',   nome);
+    body.append('entry.1395825269', email);
+
+    fetch(FORMS_URL, {
+      method:  'POST',
+      mode:    'no-cors',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body:    body.toString()
+    }).catch(function () { /* silencia — no-cors sempre rejeita */ });
+
+    // redireciona após 800ms
+    setTimeout(function () {
+      window.location.href = REDIRECT;
+    }, 800);
   });
 })();
 </script>
