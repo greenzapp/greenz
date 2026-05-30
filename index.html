@@ -349,7 +349,8 @@ input.invalid       { border-color: #ff4444; }
   </div>
 
   <!-- 5. BOTÃO PRINCIPAL -->
-  <a class="cta-main" href="#formulario">
+  <a class="cta-main" href="#formulario"
+     onclick="event.preventDefault();document.getElementById('formulario').scrollIntoView({behavior:'smooth'});">
     ENTRAR NO GRUPO AGORA →
   </a>
 
