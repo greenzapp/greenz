@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Greenz · Bem-vindo ao Protocolo Anti-Red</title>
+<meta name="description" content="Seu acesso ao Protocolo Anti-Red está liberado. Siga os passos abaixo.">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:opsz,wght@9..40,400;9..40,600;9..40,700&display=swap" rel="stylesheet">
+
+<style>
+*, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: #0a1a0e;
+  background-image:
+    radial-gradient(ellipse at 50% -10%, rgba(0,168,107,0.45) 0%, rgba(0,140,80,0.2) 35%, transparent 65%),
+    linear-gradient(180deg, transparent 40%, #0a1a0e 80%);
+  background-attachment: fixed;
+  color: #F3F5F2;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100dvh;
+}
+
+.page {
+  max-width: 390px;
+  margin: 0 auto;
+  padding: 40px 20px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+@keyframes fadeUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulseDot { 0%,100%{opacity:1} 50%{opacity:.25} }
+
+/* ── BADGE ── */
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  border: 1px solid rgba(63,217,154,.35);
+  background: rgba(63,217,154,.07);
+  border-radius: 20px;
+  padding: 5px 16px;
+  margin-bottom: 24px;
+  animation: fadeUp .5s ease forwards;
+}
+.badge-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: #3FD99A;
+  box-shadow: 0 0 6px #3FD99A;
+  flex-shrink: 0;
+  animation: pulseDot 1.8s infinite;
+}
+.badge-text {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #3FD99A;
+}
+
+/* ── HEADLINE ── */
+.headline {
+  margin-bottom: 12px;
+  opacity: 0;
+  animation: fadeUp .6s ease .1s forwards;
+}
+.headline .line1 {
+  display: block;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(52px, 15vw, 72px);
+  line-height: .88;
+  color: #F3F5F2;
+  letter-spacing: .01em;
+}
+.headline .line2 {
+  display: block;
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(52px, 15vw, 72px);
+  line-height: .92;
+  color: #3FD99A;
+  margin-top: 4px;
+  letter-spacing: .01em;
+  text-shadow: 0 0 36px rgba(63,217,154,.35);
+}
+
+/* ── SUBTÍTULO ── */
+.sub {
+  font-size: 15px;
+  color: #c8d4cc;
+  margin-bottom: 32px;
+  opacity: 0;
+  animation: fadeUp .6s ease .2s forwards;
+}
+
+/* ── CARDS ── */
+.cards {
+  width: 100%;
+  max-width: 360px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 24px;
+  opacity: 0;
+  animation: fadeUp .6s ease .3s forwards;
+}
+
+.card {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  border-radius: 18px;
+  text-decoration: none;
+  text-align: left;
+  transition: transform .2s, box-shadow .2s;
+}
+.card:hover  { transform: translateY(-2px); }
+.card:active { transform: scale(.98); }
+
+/* Card 1 — VIP (destaque) */
+.card-vip {
+  background: linear-gradient(135deg, #00A86B, #3FD99A);
+  box-shadow: 0 8px 32px rgba(0,168,107,.4);
+}
+.card-vip .card-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: .04em;
+  color: #060c09;
+  line-height: 1;
+  margin-bottom: 3px;
+}
+.card-vip .card-sub  { font-size: 13px; color: #060c09; line-height: 1.4; }
+.card-vip svg        { flex-shrink: 0; }
+
+/* Cards 2 e 3 — bônus */
+.card-bonus {
+  background: rgba(0,168,107,.07);
+  border: 1px solid rgba(63,217,154,.2);
+}
+.card-bonus .card-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: .04em;
+  color: #F3F5F2;
+  line-height: 1;
+  margin-bottom: 3px;
+}
+.card-bonus .card-sub { font-size: 13px; color: #8A938C; line-height: 1.4; }
+.card-bonus svg       { flex-shrink: 0; }
+
+/* ── AVISO ── */
+.aviso {
+  font-size: 12px;
+  color: #8A938C;
+  margin-top: 20px;
+  opacity: 0;
+  animation: fadeUp .5s ease .45s forwards;
+}
+
+/* ── DISCLAIMER ── */
+.disclaimer {
+  font-size: 11px;
+  color: #2a3a2e;
+  margin-top: 16px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .badge, .headline, .sub, .cards, .aviso { opacity: 1 !important; }
+}
+</style>
+</head>
+<body>
+<div class="page">
+
+  <!-- BADGE -->
+  <div class="badge">
+    <span class="badge-dot"></span>
+    <span class="badge-text">✅ Compra confirmada!</span>
+  </div>
+
+  <!-- HEADLINE -->
+  <div class="headline">
+    <span class="line1">BEM-VINDO AO PROTOCOLO</span>
+    <span class="line2">ANTI-RED</span>
+  </div>
+
+  <!-- SUBTÍTULO -->
+  <p class="sub">Seu acesso está liberado. Siga os passos abaixo.</p>
+
+  <!-- CARDS -->
+  <div class="cards">
+
+    <!-- Card 1 — VIP -->
+    <a class="card card-vip" href="https://t.me/+qdCgHXEWNVJkYjEx" target="_blank" rel="noopener">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke="#060c09" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <circle cx="9" cy="7" r="4" stroke="#060c09" stroke-width="1.6"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75" stroke="#060c09" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <div>
+        <div class="card-title">ENTRAR NO GRUPO VIP</div>
+        <div class="card-sub">Suas entradas chegam aqui às 18h</div>
+      </div>
+    </a>
+
+    <!-- Card 2 — Banca.os -->
+    <a class="card card-bonus" href="https://greenzapp.github.io/greenz/calculadora_banca.html" target="_blank" rel="noopener">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <rect x="4" y="2" width="16" height="20" rx="2" stroke="#3FD99A" stroke-width="1.6"/>
+        <path d="M8 7h8M8 11h8M8 15h5" stroke="#3FD99A" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <div class="card-title">BANCA.OS</div>
+        <div class="card-sub">Calculadora de gestão de banca</div>
+      </div>
+    </a>
+
+    <!-- Card 3 — Guia -->
+    <a class="card card-bonus" href="https://greenzapp.github.io/greenz/ebook_greenz.html" target="_blank" rel="noopener">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" stroke="#3FD99A" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M14 2v6h6M9 13h6M9 17h4" stroke="#3FD99A" stroke-width="1.6" stroke-linecap="round"/>
+      </svg>
+      <div>
+        <div class="card-title">GUIA ANTI-RED</div>
+        <div class="card-sub">Como usar o protocolo corretamente</div>
+      </div>
+    </a>
+
+  </div>
+
+  <!-- AVISO -->
+  <p class="aviso">Salve esse link — você vai precisar dele.</p>
+
+  <!-- DISCLAIMER -->
+  <p class="disclaimer">Greenz não é casa de apostas. +18</p>
+
+</div>
+</body>
+</html>
