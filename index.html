@@ -13,7 +13,7 @@
 <style>
 /* ─── RESET ─────────────────────────────────────────────────── */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { -webkit-text-size-adjust: 100%; }
+html { -webkit-text-size-adjust: 100%; scroll-behavior: smooth; }
 
 /* ─── FUNDO ──────────────────────────────────────────────────── */
 body {
@@ -349,7 +349,7 @@ input.invalid       { border-color: #ff4444; }
   </div>
 
   <!-- 5. BOTÃO PRINCIPAL -->
-  <a class="cta-main" href="https://t.me/+_oTdejexhvAzOTYx">
+  <a class="cta-main" href="#formulario">
     ENTRAR NO GRUPO AGORA →
   </a>
 
@@ -391,7 +391,7 @@ input.invalid       { border-color: #ff4444; }
   </div>
 
   <!-- 8. FORMULÁRIO -->
-  <div class="form-card">
+  <div class="form-card" id="formulario">
     <p class="form-intro">
       Para receber as <strong>MELHORES</strong> entradas para o Jogo&nbsp;1
       das Finais da NBA <strong>DE&nbsp;GRAÇA</strong>,
@@ -404,6 +404,10 @@ input.invalid       { border-color: #ff4444; }
     <button class="btn-submit" id="btn" type="button">
       ENTRAR NO GRUPO AGORA →
     </button>
+
+    <p id="form-err" style="display:none;font-size:12px;color:#ff4444;text-align:center;margin-top:8px;">
+      Preencha seu nome e e-mail para continuar
+    </p>
 
     <p class="reassure">
       <strong>Totalmente gratuito.</strong> Sem cartão. Entra na hora.
@@ -423,13 +427,17 @@ input.invalid       { border-color: #ff4444; }
 
 <script>
 (function () {
-  var btn   = document.getElementById('btn');
-  var fNome = document.getElementById('nome');
-  var fMail = document.getElementById('email');
-  var FORM  = 'https://docs.google.com/forms/d/e/1FAIpQLSf51A6Mm8h7JvQeSoEuMegDsBQmkxeKFfKe3mw7jcaFPxx2Eg/formResponse';
-  var TG    = 'https://t.me/+_oTdejexhvAzOTYx';
+  var btn    = document.getElementById('btn');
+  var fNome  = document.getElementById('nome');
+  var fMail  = document.getElementById('email');
+  var errMsg = document.getElementById('form-err');
+  var FORM   = 'https://docs.google.com/forms/d/e/1FAIpQLSf51A6Mm8h7JvQeSoEuMegDsBQmkxeKFfKe3mw7jcaFPxx2Eg/formResponse';
+  var TG     = 'https://t.me/+_oTdejexhvAzOTYx';
 
-  function clearErr(el) { el.classList.remove('invalid'); }
+  function clearErr(el) {
+    el.classList.remove('invalid');
+    errMsg.style.display = 'none';
+  }
   fNome.addEventListener('input', function () { clearErr(fNome); });
   fMail.addEventListener('input', function () { clearErr(fMail); });
 
@@ -438,9 +446,15 @@ input.invalid       { border-color: #ff4444; }
     var email = fMail.value.trim();
     var ok    = true;
 
-    if (!nome)                                        { fNome.classList.add('invalid'); fNome.focus(); ok = false; }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email)) { fMail.classList.add('invalid'); if (ok) fMail.focus(); ok = false; }
-    if (!ok) return;
+    if (!nome)                                          { fNome.classList.add('invalid'); ok = false; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email))  { fMail.classList.add('invalid'); ok = false; }
+
+    if (!ok) {
+      errMsg.style.display = 'block';
+      if (!nome) fNome.focus(); else fMail.focus();
+      return;
+    }
+    errMsg.style.display = 'none';
 
     btn.textContent = 'Entrando...';
     btn.classList.add('loading');
